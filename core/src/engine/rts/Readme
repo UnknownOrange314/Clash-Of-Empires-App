@@ -1,0 +1,16 @@
+Code for the RTS portion of the game engine will go here.
+
+The code here will define a simple RTS game with the following criteria and will
+not include anything too specific.
+
+-Each player will have troops that can interact.
+    -Criteria for fighting will be left to the actual game.
+
+-The game will consist of regions.
+
+-There will be resources
+
+
+In summary, any of the code that can be applied to real-time strategy games such as
+Europa Universalis III that include players fighting to control territories with a simple
+economic system will go here.

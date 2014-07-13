@@ -1,0 +1,44 @@
+{
+	"improvements":[
+	  {
+		"name": "city"
+		"image":"city.jpg"
+		"gold_bonus":"1.5x"
+		"food_bonus":"-0.5"
+		"wood_cost":"1"
+		"food_cost":"1"
+		"metal_cost":"1"
+		"stone_cost":"1"
+		"coin_cost":"1"
+	  },
+	  {
+		"name":"tower"
+		"image":"tower.jpg"
+		"wood_cost":"1"
+		"food_cost":"0"
+		"metal_cost":"1"
+		"stone_cost":"1"
+		"coin_cost":"0"
+		"attack_power":"1"
+	  },
+	  {
+		"name":"wall"
+		"image":"wall.jpg"
+		"wood_cost":"4"
+		"food_cost":"0"
+		"metal_cost":"4"
+		"stone_cost":"0"
+		"coin_cost":"0"
+		"defense_bonus":"2"
+	   },
+	   {
+		"name":"road"
+		"image":"road.jpg"
+		"wood_cost":"1"
+		"food_cost":"0"
+		"metal_cost":"0"
+		"stone_cost":"0"
+		"coin_cost":"1"
+		}
+	]
+}

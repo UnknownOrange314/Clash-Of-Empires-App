@@ -1,0 +1,25 @@
+{
+	"regions":[
+	  {
+		"name": "standard"
+		"defense_bonus":"1.1"
+		"has_resources":"true"
+		"move_bonus":"1"
+	  },
+	  {
+		"name":"desert"
+		"defense_bonus":"1"
+		"has_resources":"false"
+		"move_bonus":"0.9"
+	  },
+	  {
+		"name":"hills"
+		"defense_bonus":"1.5"
+		"attack_bonus":"1.2"
+		"move_bonus":"0.5"
+	  },
+	  {
+		"name":"mountains"
+		"move_bonus":"0"
+	]
+}

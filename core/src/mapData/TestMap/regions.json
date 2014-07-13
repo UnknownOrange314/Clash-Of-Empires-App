@@ -1,0 +1,29 @@
+{
+	"regions":[
+	  {
+		"name":"standard",
+		"has_resources":"true",
+		"attack_bonus":"1",
+		"defense_bonus":"1.1",
+		"move_bonus":"1"
+	  },{
+		"name":"desert",
+		"has_resources":"false",
+		"attack_bonus":"1",
+		"defense_bonus":"1.1",
+		"move_bonus":"0.9"
+	  },{
+		"name":"hills",
+		"has_resources":"false",
+		"attack_bonus":"1.2",
+		"defense_bonus":"1.5",
+		"move_bonus":"0.5"
+	  },{
+		"name":"water",
+		"has_resources":"false",
+		"attack_bonus":"1",
+		"defense_bonus":"1.1",
+		"move_bonus":"0"
+	  }
+	]
+}

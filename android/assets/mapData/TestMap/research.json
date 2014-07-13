@@ -1,0 +1,34 @@
+{
+	"research":[
+	
+	  {
+		"name": "Upgrade troop movement",
+		"reinforce_rate":"1.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+		
+		
+	  },{
+		"name":"Upgrade troop production",
+		"reinforce_rate":"0.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+
+	  },{
+		"name":"Upgrade food production",
+		"reinforce_rate":"0.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+
+	  },{
+		"name":"Upgrade tax income",
+		"reinforce_rate":"0.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+
+	  }
+	  
+
+	]
+	
+}

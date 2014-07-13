@@ -1,0 +1,22 @@
+{
+	"personalities":[
+	
+	  {
+		"name": "standard",
+		"reinforce_rate":"1.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+		
+		
+	  },{
+		"name":"neutral",
+		"reinforce_rate":"0.0",
+		"aggression":"1.0",
+		"paranoia":"1.0"
+
+	  }
+	  
+
+	]
+	
+}

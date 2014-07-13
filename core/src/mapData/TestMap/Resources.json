@@ -1,0 +1,20 @@
+{
+	"resources":[
+	  {
+		"name": "coin",
+		"image":"coin.jpg"
+	  },{
+		"name":"food",
+		"image":"food.jpg"
+	  },{
+		"name":"metal",
+		"image":"metal.jpg"
+	  },{
+		"name":"stone",
+		"image":"stone.jpg"
+	  },{
+		"name":"wood",
+		"image":"wood.jpg"
+	  }
+	]
+}

@@ -13,49 +13,50 @@ import scala.collection.JavaConversions._
 import engine.rts.model.Resource
 import engine.general.view._
 import engine.general.view.gui.{Label, Button,IconLabel}
+import com.badlogic.gdx.graphics.Texture;
 
 /**
  * This class represents the interface for using the game market.
  * @param myClient
  */
-class MarketInterface(xP:Int,yP:Int,w:Int,h:Int,var myClient: GameConnection)  extends drawArea(xP,yP,w,h){
+class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  extends drawArea(x,y,w,h){
 
     var priceFormat=new DecimalFormat("###.##")
     var sellMap = new HashMap[String, Button]
     var buyMap = new HashMap[String, Button]
 
-    var x=20
-    var y=50
+    var xP=20
+    var yP=50
     val colSize=100
     val rowSize=30
 
     components.add(new Label(x,y,"Resource name"))
-    x+=colSize
+    xP+=colSize
     components.add(new Label(x,y,"Sell"))
-    x+=colSize
+    xP+=colSize
     components.add(new Label(x,y,"Buy"))
-    x=20
-    y+=rowSize
+    xP=20
+    yP+=rowSize
 
     for (resource <- Resource.resourceList) {
 
         val resourceName = resource.getName()
         if (resource.getName() != "coin"){
             
-            val resourceImage =  ImageIO.read(new File("images/resources/" + resource.getResourceFile()))
+        	val resourceImage=new Texture("images/resources/"+resource.getResourceFile())
             components.add(new IconLabel(x,y,resourceImage,20))
-            x+=colSize
+            xP+=colSize
 
             var sellButton:Button = new Button(x,y+12,"Sell $" + resourceName)
             components.add(sellButton)
             sellMap.put(resourceName, sellButton)
-            x+=colSize
+            xP+=colSize
 
             var buyButton:Button = new Button(x,y+12,"Buy $" + resourceName)
             components.add(buyButton)
             buyMap.put(resourceName, buyButton)
-            y+=rowSize
-            x=20
+            yP+=rowSize
+            xP=20
         }
     }
 
@@ -70,7 +71,7 @@ class MarketInterface(xP:Int,yP:Int,w:Int,h:Int,var myClient: GameConnection)  e
         val y=clickY-myY
 
         for((name,button)<-sellMap){
-            if (button.contains(x,y)){
+            if (button.contains(x.toInt,y.toInt)){
                 import client.controller.MarketCommand
                 val sellCommand = new MarketCommand("sell", name)
                 myClient.sendInput(sellCommand)
@@ -79,7 +80,7 @@ class MarketInterface(xP:Int,yP:Int,w:Int,h:Int,var myClient: GameConnection)  e
         }
         
         for ((name,button)<-buyMap){
-            if(button.contains(x,y)){
+            if(button.contains(x.toInt,y.toInt)){
                 val buyCommand = new MarketCommand("buy", name)
                 myClient.sendInput(buyCommand)
                 return
@@ -99,6 +100,5 @@ class MarketInterface(xP:Int,yP:Int,w:Int,h:Int,var myClient: GameConnection)  e
                 buyButton.setText("$"+priceFormat.format(resourceCosts.get(resourceName)*10))
             }
         }
-        render(imageGraphics)
     }
 }

@@ -4,8 +4,12 @@ import java.awt.Color
 import java.awt.Graphics
 import engine.general.utility.Line
 import client.view.Camera
-
-class PixelAnimation(val myCol:Color, moveLine:Line){
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+/**
+ * This class renders troop movements.
+ */
+class TroopAnimation(val myCol:Color, moveLine:Line){
     
     private var count=0
     private val maxCount=30.0
@@ -45,8 +49,12 @@ class PixelAnimation(val myCol:Color, moveLine:Line){
      * @param g The graphics object used.
      * @param c The camera object used for doing transformations when there is zooming or scrolling.
      */
-    def render(g:Graphics,c:Camera){
-        g.setColor(Color.BLACK)
-        g.fillOval(c.transformX(curX.toInt-5),c.transformY(curY.toInt-5),10,10)
+    def render(g:ShapeRenderer,c:Camera){
+        g.begin(ShapeType.Line)
+        var x=c.transformX(curX.toInt-5).toFloat
+        var y=c.transformY(curY.toInt-5).toFloat
+        var size=(10).toFloat
+        g.ellipse(x,y,size,size)
+        g.end()
     }
 }

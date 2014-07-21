@@ -4,7 +4,8 @@ import java.awt._
 import java.awt.geom.AffineTransform
 import java.awt.geom.Point2D
 import engine.general.view.drawArea
-
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 /**
  * This class displays a minimap of the current game map.
  * @param mapWidth The model width of the map in pixels.
@@ -18,9 +19,8 @@ class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends drawAr
     
     val scale=width/(Math.min(mapWidth,mapHeight).toDouble)
     val drawBounds=new Rectangle(x,y,width.toInt,height.toInt)//This is to make sure that nothing is drawn on top of the minimap.
-    val transform=new AffineTransform()
+    val render=new ShapeRenderer()
     
-    transform.scale(scale,scale)
 
     var viewTop:Point2D=null
     var viewBot:Point2D=null
@@ -31,13 +31,25 @@ class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends drawAr
      */
     def intersection(shape:Shape):Boolean=return shape.getBounds.intersects(drawBounds)
 
-    def render(regionShape:Polygon,drawColor:Color){
-        val drawShape=transform.createTransformedShape(regionShape)
-        imageGraphics.setColor(drawColor)
-        imageGraphics.fill(drawShape)
-        imageGraphics.setColor(Color.BLACK)
-        imageGraphics.draw(drawShape)
-        imageGraphics.setColor(Color.WHITE)
+    def render(drawShape:Polygon,drawColor:Color){
+        
+    	var drawPoints=(drawShape.xpoints++drawShape.ypoints)
+    						.map(pt=>pt.toFloat)
+    	render.begin(ShapeType.Line)
+    	
+        var rCol=(drawColor.getRed()/255.0).toFloat
+        var gCol=(drawColor.getGreen()/255.0).toFloat
+        var bCol=(drawColor.getBlue()/255.0).toFloat   
+        
+        render.setColor(rCol,gCol,bCol,1)
+        render.polygon(drawPoints)
+    	render.setColor(0,0,0,1)
+        render.end()
+    	
+    	render.begin(ShapeType.Line)
+    	render.setColor(1,1,1,1)
+        render.polygon(drawPoints)
+        render.end()
     }
 
     def updateViewLoc(t:Point2D.Double,b:Point2D.Double){

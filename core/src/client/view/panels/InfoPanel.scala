@@ -15,6 +15,7 @@ import client.controller.ResearchCommand
 import engine.general.view.gui.{Label,Button,IconLabel}
 import java.text.NumberFormat
 import java.util.Locale
+import com.badlogic.gdx.graphics.Texture;
 
 /**
  * This class represents the menu for the game.
@@ -40,7 +41,7 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
     for (resource <- Resource.resourceList) {
 
         val resName = resource.getName()
-        val resourceImage = ImageIO.read(new File("images/resources/" + resource.getResourceFile()))
+        val resourceImage = new Texture("images/resources/" + resource.getResourceFile())
         components.add(new IconLabel(xPos,yPos-15,resourceImage,20))
         xPos+=xSpace
 
@@ -89,7 +90,6 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
      */
     def updateLabels(statistics: PlayerStats) {
 
-        imageGraphics.clearRect(0,0,image.getWidth,image.getHeight)
 
         //Show the time that has passed.
         val gameData=gameConnection.getGameState().passTime
@@ -136,25 +136,18 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
         for (failStr<-statistics.failLog){
             messageString+=failStr
         }
-        render(imageGraphics)
     }
 
     def processClick(cX:Int,cY:Int){
         val x=cX-myX
         val y=cY-myY
         resButtons.foreach{res=>
-            if(res.contains(x,y)){
+            if(res.contains(x.toInt,y.toInt)){
                 val command=res.getText.split(":")(0)
                 gameConnection.sendInput(new ResearchCommand(command))
             }
         }
     }
     
-    override def render(g:Graphics){
-        g.setColor(Color.BLACK)
-        g.fillRect(0,0,width,height)
-        g.setColor(Color.GREEN)
-        g.fillOval(100,100,200,200)
-        super.render(g)
-    }
+
 }

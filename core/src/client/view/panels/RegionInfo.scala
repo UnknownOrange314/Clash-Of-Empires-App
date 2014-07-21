@@ -89,15 +89,16 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
     
     def isOn():Boolean=on
 
-    override def drawToPanel(pGraphics:Graphics,disp:Display){
+    //TODO: Find a way to implement this using OpenGL.
+    def drawToPanel(pGraphics:Graphics,disp:Display){
         if (on){
-            super.drawToPanel(pGraphics,disp)
+            //super.drawToPanel(pGraphics,disp)
         }
     }
     
     def render(){
         if (on){
-            super.render(imageGraphics)
+           // super.render(imageGraphics)
         }
     }
 }

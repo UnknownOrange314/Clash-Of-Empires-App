@@ -1,7 +1,8 @@
 package engine.general.utility
 
-import java.awt.{Color, BasicStroke, Graphics2D, Graphics}
-
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import com.badlogic.gdx.graphics.Color
 /**
  * This class represents lines. The coordinates are stored as shorts because they will be sent over a network.
  * @param xA
@@ -14,11 +15,11 @@ class Line(var xA:Short,var yA:Short,var xB:Short,var yB:Short) extends java.io.
     def width()=Math.abs(xB-xA)
     def height()=Math.abs(yB-yA)
 
-    def drawLine(bufferGraphics:Graphics){
-        bufferGraphics.asInstanceOf[Graphics2D].setStroke(new BasicStroke(5))
-        bufferGraphics.asInstanceOf[Graphics2D].setColor(Color.BLACK)
-        bufferGraphics.asInstanceOf[Graphics2D].drawLine(xA,yA,xB,yB)
-        bufferGraphics.asInstanceOf[Graphics2D].setStroke(new BasicStroke(1))
+    def drawLine(bufferGraphics:ShapeRenderer){
+    	bufferGraphics.begin(ShapeType.Line)
+    	bufferGraphics.setColor(Color.BLACK)
+        bufferGraphics.line(xA,yA,xB,yB)
+    	bufferGraphics.end()
     }
 
     /**
@@ -38,8 +39,9 @@ class Line(var xA:Short,var yA:Short,var xB:Short,var yB:Short) extends java.io.
 
     }
     
-    def drawArrow(bufferGraphics:Graphics){
+    def drawArrow(bufferGraphics:ShapeRenderer){
         
+    	bufferGraphics.begin(ShapeType.Line)
         val finalLoc: Location = new Location(xA,yA)
         val startLoc: Location = new Location(xB,yB)
         drawLine(bufferGraphics)
@@ -49,18 +51,19 @@ class Line(var xA:Short,var yA:Short,var xB:Short,var yB:Short) extends java.io.
         val midY: Int = (yA + yB) / 2
 
         val distance: Double = finalLoc.distance(startLoc)
-        val xPoints: Array[Int] = new Array[Int](3)
-        val yPoints: Array[Int] = new Array[Int](3)
-        val xW: Int = (20 * (yB - yA) / distance).asInstanceOf[Int]
-        val yW: Int = (20 * (xB - xA) / distance).asInstanceOf[Int]
+        val xPoints = new Array[Float](3)
+        val yPoints = new Array[Float](3)
+        val xW = (20 * (yB - yA) / distance).asInstanceOf[Float]
+        val yW = (20 * (xB - xA) / distance).asInstanceOf[Float]
 
         xPoints(0) = midX + xW
         yPoints(0) = midY - yW
         xPoints(1) = midX - xW
         yPoints(1) = midY + yW
-        xPoints(2) = midX + (30*(xB - xA)/distance).asInstanceOf[Int]
-        yPoints(2) = midY + (30*(yB -yA)/distance).asInstanceOf[Int]
-        bufferGraphics.fillPolygon(xPoints, yPoints, 3)
+        xPoints(2) = midX + (30*(xB - xA)/distance).asInstanceOf[Float]
+        yPoints(2) = midY + (30*(yB -yA)/distance).asInstanceOf[Float]
+        bufferGraphics.polyline(xPoints++yPoints)
+        bufferGraphics.end()
     }
     override def toString():String=xA+":"+yA+" "+xB+":"+yB
 }

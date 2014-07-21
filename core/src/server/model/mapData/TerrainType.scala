@@ -8,9 +8,7 @@ object TerrainType{
     var terrainList=new ArrayList[TerrainType]
  
     def getType(name:String):TerrainType={
-    	println("Looking")
         for(t:TerrainType<-terrainList){
-            println("Name:"+t.getName)
             if (t.getName.equals(name)){
                 return t
             }

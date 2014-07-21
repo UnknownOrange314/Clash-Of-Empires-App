@@ -12,6 +12,15 @@ import java.io.File
 import javax.imageio.ImageIO
 import java.text.NumberFormat
 import java.util.Locale
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
+import javax.imageio.ImageIO
+import java.io.File
+import network.Client.GameConnection
+import engine.rts.model.Resource
+import java.util._
+import java.awt.image.BufferedImage
+import scala.collection.JavaConversions._
 
 /**
  * This object shows information about each player
@@ -28,13 +37,13 @@ class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,he
     
     var stats:HashMap[String,String]=null
     var labels=new HashMap[IconLabel,Label]()
-    var flags=new HashMap[String,BufferedImage]()
+    var flags=new HashMap[String,Texture]()
     
     def loadFlags(){
         //The nation names probably should not be hardcoded
         for( a <- 0 to nationNames.length-1){
             var file=imageData.getFlag(nationNames(a))
-            flags.put(nationNames(a),ImageIO.read(new File(file)))
+            flags.put(nationNames(a),new Texture(file))
         }
     }
     
@@ -61,6 +70,5 @@ class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,he
                 yD+=50
             }
         }
-        render(imageGraphics)
     }
 }

@@ -31,31 +31,9 @@ abstract class Display(var serverConnection:GameConnection) extends JPanel{
     val DRAW_HEIGHT=screenH
     val DRAW_WIDTH=screenW-panelW
     var gameComponents=new ArrayList[drawArea]//These represent the interface components.
-    var offscreen = new BufferedImage(DRAW_WIDTH, DRAW_HEIGHT, BufferedImage.TYPE_INT_RGB)
-    var bufferGraphics = offscreen.getGraphics()
 
-    /**
-     * This method returns the object used to draw graphics on the screen.
-     * @return
-     */
-    def graphicsWriter=bufferGraphics
+ 
 
-    /**
-     * This function is used to save an image of the game.
-     */
-    def takeScreenshot(){
-
-        val dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
-        val cal = Calendar.getInstance()
-        val name="screenshot"+dateFormat.format(cal.getTime())+".png"
-        try{
-            val outputfile = new File(name)
-            ImageIO.write(offscreen, "png", outputfile)
-        }
-        catch{
-            case e:IOException => e.printStackTrace()
-        }
-    }
 
     /**
      * This method adds a drawArea object to the display.
@@ -70,17 +48,8 @@ abstract class Display(var serverConnection:GameConnection) extends JPanel{
      *
      */
     def drawComponents(panelGraphics:Graphics){
-        gameComponents.foreach(c=>c.drawToPanel(panelGraphics,this))
+    	System.err.println("This method does not work");
     }
 
-    /**
-     * This method sets up the drawing area so that it renders the game state.
-     */
-    protected def setupFrame(){
-        //Prepare for double buffering
-        bufferGraphics.clearRect(0, 0, DRAW_WIDTH, DRAW_HEIGHT)
-        super.paint(bufferGraphics)
-        //Make sure that key presses work.
-        this.requestFocusInWindow(false)
-    }
+
 }

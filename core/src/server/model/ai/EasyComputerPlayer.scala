@@ -136,23 +136,5 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
     }
 
 
-    def drawMovement(g:Graphics){
-
-        g.setColor(Color.BLACK)
-        for((region,commands)<-borders){
-            for ((command:RegionBorder)<-commands) {
-                if(command.isOn()){
-                    var s=command.getOrigin()
-                    var d=command.getDestination()
-                    var x1=s.getCenterLoc.getX()
-                    var y1=s.getCenterLoc.getY()
-                    var x2=d.getCenterLoc.getX()
-                    var y2=d.getCenterLoc.getY()
-                    var l=new Line(x1.toShort,y1.toShort,x2.toShort,y2.toShort)
-                    l.shrink(0.7)
-                    l.drawArrow(g)
-                }
-            }
-        }
-    }
+   
 }

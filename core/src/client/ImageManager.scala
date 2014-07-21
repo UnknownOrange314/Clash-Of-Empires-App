@@ -10,6 +10,9 @@ import java.util._
 import java.awt.image.BufferedImage
 import scala.collection.JavaConversions._
 
+/**
+ * This class is responsible for loading images and storing them.
+ */
 class ImageManager(val serverConnection:GameConnection) {
 
     val imageDir="images/"
@@ -23,41 +26,30 @@ class ImageManager(val serverConnection:GameConnection) {
     val mapBackground=new Texture(imageDir+"MapBackground.jpg")
     val capitalImage=new Texture(imageDir+"MapBackground.jpg")
 
-    var resourceImages: ArrayList[BufferedImage] = null
-    var improvementImages: ArrayList[BufferedImage] = null
+    var resourceImages=new ArrayList[Texture]
+    var improvementImages=new ArrayList[Texture]
 
-    def getFlag(nName:String)=flagDir+nName+".jpg"
+    def getFlag(pName:String)=flagDir+pName+".jpg"
     def unreadImages:Boolean=resourceImages==null
-
     def getUpgradeImage(uNum:Int)=improvementImages.get(uNum)
-    def getResourceImage(rNum:Int):BufferedImage={
-        return resourceImages.get(rNum)
-    }
-    
+    def getResourceImage(rNum:Int)=resourceImages.get(rNum)
+       
     /**
      * This method reads the images that represent the resources and improvements.
      */
      def readImages() {
 
-        resourceImages = new ArrayList[BufferedImage]()
-        improvementImages = new ArrayList[BufferedImage]()
         val resourceData:ArrayList[Resource]=serverConnection.getResourceDefs()
-        println("Resource data:"+resourceData)
-
         try {
             resourceData.foreach {resource:Resource=>
-            val resourceImage = ImageIO.read(new File("images/resources/" + resource.getResourceFile()))
-            resourceImages.add(resourceImage)
-        }
-
-        //Add the list of improvements.
-        serverConnection.getImprovementDefs().foreach {improvement=>
-                val upgradeImage = ImageIO.read(new File("images/improvements/" + improvement.getImageLocation()))
+            	val resourceImage = new Texture("images/resources/" + resource.getResourceFile())
+            	resourceImages.add(resourceImage)
+            }
+            serverConnection.getImprovementDefs().foreach {improvement=>
+                val upgradeImage = new Texture("images/improvements/" + improvement.getImageLocation())
                 improvementImages.add(upgradeImage)
             }
-
-        }
-        
+        } 
         catch {
             case e: Exception => e.printStackTrace()
         }

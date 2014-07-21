@@ -1,9 +1,12 @@
 package client.view.animation
 
-import java.awt.Color
-import java.awt.Graphics
+import com.badlogic.gdx.graphics.Color;
 import engine.general.utility.IntLoc
 import client.view.Camera
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 
 /**
  * This is an animation to represent troop deaths in a region.
@@ -20,13 +23,15 @@ class LossAnimation(val loc:IntLoc,count:Int){
 
     def done():Boolean=time<0
 
-    def update(g:Graphics,c:Camera){
-        g.setColor(Color.BLACK)
+    def update(font:BitmapFont,batch:SpriteBatch,c:Camera){
+        font.setColor(Color.BLACK)
+        batch.begin()
         x+=2
         y-=2
         if(c.showDeaths()){
-            g.drawString(text,c.transformX(x),c.transformY(y))
+            font.draw(batch,text,c.transformX(x).toFloat,c.transformY(y).toFloat)
         }
+        batch.end();
         time-=1
     }
 }

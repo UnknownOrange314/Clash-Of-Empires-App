@@ -4,16 +4,12 @@ import javax.swing.{JApplet, UIManager, JFrame}
 import java.awt._
 import client.view.panels.GameMenu
 import client.view.panels.GameDisplay
-import engine.general.render.AndroidEngine
-import engine.general.render.SwingEngine
-import engine.general.render.RenderEngine
 
 /**
  * This is used as an entry point to start the client.
  */
 object ClientDriver{
     def main(args: Array[String]){
-    	var e=new SwingEngine();
         new ClientDriver(true)
     }
 }

@@ -1,13 +1,18 @@
 package  engine.general.view.gui
 
 import java.awt.Graphics
-import java.awt.Color
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 class Label(xPos:Integer,yPos:Integer,var text:String) extends GuiItem(xPos,yPos){
-    def draw(g:Graphics){
-        g.setColor(Color.WHITE)
-
-        g.drawString(text,xPos,yPos)
+    
+  def draw(render:ShapeRenderer){  	
+	  	font.setColor(Color.WHITE) 	
+	  	batch.begin()
+    	font.draw(batch,text,xPos,yPos)
+    	batch.end()
     }
 
     def setText(s:String){

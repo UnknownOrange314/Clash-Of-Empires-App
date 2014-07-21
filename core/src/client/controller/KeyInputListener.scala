@@ -20,7 +20,7 @@ class KeyInputListener(val connection:GameConnection,val gameView:Camera,val dis
             case KeyEvent.VK_Z=>gameView.zoomIn()
             case KeyEvent.VK_X=>gameView.zoomOut()
             case KeyEvent.VK_SPACE=>gameView.reset()
-            case KeyEvent.VK_ENTER=>disp.takeScreenshot()
+
             case _ =>connection.sendInput(e) //Send key comment to client to process
         }
     }

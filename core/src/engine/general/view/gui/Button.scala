@@ -1,28 +1,41 @@
 package engine.general.view.gui
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.geom.Rectangle2D
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
-class Button( xPos:Integer,yPos:Integer, var text:String,val width:Int,val height:Int) extends GuiItem(xPos,yPos){
+class Button( x:Integer,y:Integer, var text:String,val width:Int,val height:Int) extends GuiItem(x,y){
 
     val myColor=Color.WHITE
-    //TODO:Figure out a way to define the width and height without hardcoding
     def getWidth=width
+    
     var drawRect=new Rectangle2D.Double(xPos.toDouble,(yPos-height/2).toDouble,width.toDouble,height.toDouble)
 
     def this(xPos:Integer,yPos:Integer,text:String){
         this(xPos,yPos,text,90,25)
     }
 
-    def draw(g: Graphics){
-        g.setColor(Color.WHITE)
-        g.asInstanceOf[Graphics2D].fill(drawRect)
-        g.setColor(myColor)
-        g.asInstanceOf[Graphics2D].draw(drawRect)
-        g.setColor(Color.BLACK)
-        g.drawString(text,xPos,yPos) //Draw the button text.
+    def draw(render:ShapeRenderer){
+      
+      
+    	render.begin(ShapeType.Filled)
+    	render.setColor(1,1,1,1)
+    	render.rect(xPos,yPos,drawRect.width.toFloat,drawRect.height.toFloat)
+    	render.end()
+    	
+    	render.begin(ShapeType.Line)
+    	render.setColor(0,0,0,0)
+    	render.rect(xPos,yPos,drawRect.width.toFloat,drawRect.height.toFloat)
+    	render.end()
+    	
+    	batch.begin()
+    	font.draw(batch,text,xPos,yPos)
+    	batch.end()
+
     }
 
     def getText=text

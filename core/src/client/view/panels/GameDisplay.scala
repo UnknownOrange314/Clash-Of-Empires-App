@@ -1,23 +1,19 @@
 package client.view.panels
 
+import com.badlogic.gdx.utils.TimeUtils
 import network.Client.GameConnection
 import client.controller.{KeyInputListener, MouseInputListener}
 import java.awt._
-import java.awt.event.{ActionEvent, ActionListener}
-import java.awt.geom.Point2D
-import java.awt.image.BufferedImage
 import java.io.File
 import java.util
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
-import javax.imageio.ImageIO
-import javax.swing.{Timer, JPanel}
 import server.clientCom.{PlayerStats, GameStateData, RegionState}
 import engine.general.utility.IntLoc
 import engine.general.utility.Line
 import client.view._
-import client.view.animation.{SelectAnimation, PixelAnimation, LossAnimation}
+import client.view.animation.{SelectAnimation, TroopAnimation, LossAnimation}
 import scala.collection.JavaConversions._
 import server.model.playerData.Region
 import client.view.component.HealthBar
@@ -25,6 +21,16 @@ import engine.rts.model.StratMap
 import client.controller.InputProcess
 import client.ImageManager
 import engine.general.view.Display
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Vector2
+import java.awt.Polygon
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import java.awt.geom.Point2D.Double
 
 /**
  * This class represents the display for the game.
@@ -32,9 +38,13 @@ import engine.general.view.Display
  */
 class GameDisplay(serverConnection: GameConnection) extends Display(serverConnection) {
 
+	var batch=new SpriteBatch()
+	var sRender=new ShapeRenderer()
+	var drawFont=new BitmapFont();
+	
     var imageData=new ImageManager(serverConnection)
     var selectAnimation:SelectAnimation=null//This object represents an animation that is generated when a key press is registered.
-    var attackAnimations=new HashSet[PixelAnimation]() //These objects represents animations.
+    var attackAnimations=new HashSet[TroopAnimation]() //These objects represents animations.
     var deathAnimations=collection.mutable.Set[LossAnimation]()
     var polyMap=new HashMap[Shape,Color]()
 
@@ -69,23 +79,10 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
     var inProcess=new InputProcess(serverConnection, gameView,this,regionControl,playerInfo)
     setFocusable(true)
 
-    //Create a timer to periodically render the game state.
-    val PAINT_INTERVAL=40//Number of milliseconds between each frame
-    var drawTimer = new Timer(PAINT_INTERVAL, new drawListener())
-    drawTimer.start()
-    imageData.readImages
+    imageData.readImages()
 
-    /**
-     * This class is an ActionListener that is responsible for rendering data that has been sent by the client.
-     */
-    class drawListener extends ActionListener {
-        def actionPerformed(e: ActionEvent) {
-            val top=gameView.inverseTrans(0,0)  //This is buggy.
-            val bot=gameView.inverseTrans(DRAW_WIDTH,DRAW_HEIGHT)
-            miniMap.updateViewLoc(top,bot)
-            repaint()
-        }
-    }
+ 
+
 
     /**
     * This is a private helper method that renders the upgrades for each region.
@@ -99,7 +96,12 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
             for (upgradeNum <- 0 until serverConnection.getImprovementCount()) {
                 if (upgradeList.get(upgradeNum) == true) {
                     builtUpgrades.add(upgradeNum)
-                    bufferGraphics.drawImage(imageData.getUpgradeImage(upgradeNum), xPos + 20 * (upgradeNum % 2), yPos +20+ 20 * (upgradeNum / 2), 25, 25, null)
+                    var dX=xPos + 20 * (upgradeNum % 2).toFloat
+                    var dY=yPos +20+ 20 * (upgradeNum / 2).toFloat
+                    var size=(25.0).toFloat
+                    batch.begin()
+                    batch.draw(imageData.getUpgradeImage(upgradeNum), dX,dY ,size,size)
+                    batch.end()
                 }
             }
         }
@@ -112,18 +114,19 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
      * @param yPos The y position of the region center.
      */
     private def renderRegionState(rNum:Int,color:Color,regionState:RegionState,xPos:Int,yPos:Int){
-        bufferGraphics.setColor(Color.BLACK)
+    	batch.begin()
+    	drawFont.draw(batch,regionState.name,xPos-30,yPos-35)
+    	batch.end()
         var scale = 18 * gameView.getTroopLabelScale()
-        bufferGraphics.setFont(new Font("Serif", Font.PLAIN, scale.toInt))
-
-        bufferGraphics.drawString(regionState.name,xPos-30,yPos-35)
-        if(scale>0){ //Do not draw troop label if it will be too smal.
-            bufferGraphics.drawImage(imageData.armyImage,xPos-30,yPos-20,15,15,null)
-            bufferGraphics.drawString("" + regionState.getOwnerTroopCount(), xPos - 5, yPos-5)
+        if(scale>0){ //Do not draw troop label if it will be too small
+        	batch.begin();
+        	batch.draw(imageData.armyImage,xPos-30,yPos-20);
+        	drawFont.draw(batch,""+regionState.getOwnerTroopCount(),xPos-5,yPos-5)
+        	batch.end();        	
         }
         val h=new HealthBar(xPos,yPos,50,10,Region.MAX_POINTS)
         h.setValue(regionState.getHitPoints)
-        h.draw(bufferGraphics)
+        h.draw(sRender)
     }
 
     /**
@@ -133,32 +136,30 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
      */
     private def renderTroopMovement(rallyPoints:HashSet[Line],conflictLocs:HashMap[IntLoc,Line]){
         
-        //Draw lines that represent troop movement.
-        bufferGraphics.setColor(Color.BLACK)
         for (line <- rallyPoints) {
             var trans=gameView.transform(line)
             trans.shrink(0.8)
-            trans.drawArrow(bufferGraphics)
+            trans.drawArrow(sRender)
         }
 
         //Show areas where there is a battle.
         for((cLoc:IntLoc,cLine)<-conflictLocs){
             val cX=gameView.transformX(cLine.xA).toDouble
             val cY=gameView.transformY(cLine.yA).toDouble
-            val p=new Point2D.Double(cX,cY)
+            val p=new java.awt.geom.Point2D.Double(cX,cY)
             for((poly,color)<-polyMap) //This is to select the correct color of the pixel animation
             {
                 if(poly.contains(p))
                 {
-                     attackAnimations.add(new PixelAnimation(color,cLine))
+                     attackAnimations.add(new TroopAnimation(color,cLine))
                 }
             }
         }
 
-        val remove=new HashSet[PixelAnimation]()
-        for ((anim:PixelAnimation)<-attackAnimations){
+        val remove=new HashSet[TroopAnimation]()
+        for ((anim:TroopAnimation)<-attackAnimations){
             anim.update()
-            anim.render(bufferGraphics,gameView)
+            anim.render(sRender,gameView)
             if(anim.finished()){
                 remove.add(anim)
             }
@@ -174,7 +175,7 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
             deathAnimations.add(new LossAnimation(loc,loss))
         }
         for(loss<-deathAnimations){
-            loss.update(bufferGraphics,gameView)
+            loss.update(drawFont,batch,gameView)
         }
         deathAnimations=deathAnimations.filter(anim=>(!anim.done())) //Remove completed animations
     }
@@ -183,7 +184,7 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
      * This method renders the game state for the client
      * @param panelGraphics
      */
-    override def paint(panelGraphics: Graphics) {
+    def update() {
 
         polyMap.clear()
         //Do not draw anything if the server has not sent any data.
@@ -195,8 +196,10 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
             imageData.readImages()
         }
 
-        setupFrame()
-        bufferGraphics.drawImage(imageData.mapBackground,0,0,DRAW_WIDTH,DRAW_HEIGHT,null)
+        
+    	batch.begin();
+    	batch.draw(imageData.mapBackground,0,0);
+    	batch.end();
 
         //Get the data that the server has sent.
         val gameStateData = serverConnection.getGameState()
@@ -214,8 +217,6 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
             
             val ownerNum: Int = regionState.getOwnerNum()
             val regionShape = regionShapes.get(rNum)
-            var g2d = bufferGraphics.asInstanceOf[Graphics2D]
-            val transform=gameView.transformPolygon(regionShape)
             miniMap.render(regionShape,StratMap.playerColors(ownerNum))
 
             //Determine if we have clicked on a region and must generate an animation.
@@ -232,24 +233,41 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
             }
 
             //Draw the region shape and account for aniation.
-            polyMap.put(transform,StratMap.playerColors(ownerNum))
+            polyMap.put(regionShape,StratMap.playerColors(ownerNum))
             
+            //Fill regions.
             if(selectAnimation==null||inProcess.getClick==null){
-                g2d.setColor(StratMap.playerColors(ownerNum))
-                g2d.fill(transform)
+            	sRender.begin(ShapeType.Line)
+            	var col=StratMap.playerColors(ownerNum)
+            	var r=col.getRed().toFloat
+            	var g=col.getGreen().toFloat
+            	var b=col.getBlue().toFloat
+            	sRender.setColor(r,g,b,1)
+            	var pts=regionShape.xpoints++regionShape.ypoints
+            	var trans=pts.map(x=>x.toFloat)
+                sRender.polygon(trans)
+                sRender.end()
             }
             
-            else if(selectAnimation.update(g2d,transform,regionShape,StratMap.playerColors(ownerNum))==false) {
-               g2d.setColor(StratMap.playerColors(ownerNum))
-               g2d.fill(transform)
-            }
+         
+            //Draw boundaries.
+            sRender.begin(ShapeType.Line)
+        	var col=StratMap.playerColors(ownerNum)
+        	var r=col.getRed().toFloat
+        	var g=col.getGreen().toFloat
+        	var b=col.getBlue().toFloat
+        	sRender.setColor(r,g,b,1)
+        	var pts=regionShape.xpoints++regionShape.ypoints
+        	var trans=pts.map(x=>x.toFloat)
+            sRender.polygon(trans)
+            sRender.end()
 
-            g2d.setColor(Color.black)
-            g2d.draw(transform)
 
-            if(inProcess.containsLeftClick(transform)){
+       
+            if(inProcess.containsLeftClick(regionShape)){
                 regionControl.drawRegionState(regionState)
             }
+      
 
             //Draw the troop count labels.
             val xPos = gameView.transformX(xLabelPositions.get(rNum))
@@ -257,32 +275,33 @@ class GameDisplay(serverConnection: GameConnection) extends Display(serverConnec
 
             //We will render resources
             if (gameView.renderResources()){
-                bufferGraphics.drawImage(imageData.getResourceImage(regionState.getResourceNum()), xPos-30, yPos+10, 20, 20, null)
+            	var x=(xPos-30).toFloat
+            	var y=(yPos-20).toFloat
+            	var sz=(20).toFloat
+            	batch.begin()
+                batch.draw(imageData.getResourceImage(regionState.getResourceNum()), x,y,sz,sz)
+                batch.end()
             }
 
             //Draw the upgrade list.
             renderUpgrades(regionState.getUpgradeData(),xPos,yPos)
 
             if(regionState.isCapital){
-                bufferGraphics.drawImage(imageData.capitalImage,xPos+10,yPos-30,20,20,null)
+              	batch.begin();
+              	batch.draw(imageData.capitalImage,xPos+10,yPos-30);
+              	batch.end();
             }
             
             //Show the troop count.
             renderRegionState(rNum,StratMap.playerColors(ownerNum),regionState,xPos,yPos)
             rNum = rNum + 1
 
-            //Testing hack
-            if(regionState.getTerrain.equals("water")){
-                g2d.setColor(Color.BLUE)
-                g2d.fill(transform)
-            }
+
         }
 
         showDeaths(gameStateData.deathCounts)
         renderTroopMovement(rallyPoints,gameStateData.conflictLocs)
         regionControl.render()
         gameLog.render(serverConnection.myStats.failLog)
-        panelGraphics.drawImage(offscreen, 0, 0, this)
-        drawComponents(panelGraphics)
     }
 }

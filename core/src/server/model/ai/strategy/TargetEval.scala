@@ -105,7 +105,6 @@ object TargetEval {
         myTargets.clear() //Clear the targets
         val power_factor=1.5 //A higher value means that an AI will be less likely to attack multiple targets
         var curScore=(1-strRatio)*500-500
-        println("Score ratio:"+strRatio)
         
         for( (key:Region,value:Double)<-locVals.toList sortBy ( 1/_._2 )){
             val score:Double=minScore+curScore

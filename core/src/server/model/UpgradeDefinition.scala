@@ -32,7 +32,6 @@ class UpgradeDefinition(improvementMap:Map[Any,Any],resourceList:ArrayList[Resou
     val imageName=improvementMap.get("image").get.asInstanceOf[String] //Set the name
     var resourceCosts=new HashMap[String,Integer]() //This represents how much an upgrade costs.
     var resourceBonus=new HashMap[String,Double]()//This represents the resource income setBonus.
-
     for(resource<-resourceList){
         val resName:String=resource.getName()
         resourceCosts.put(resName,(improvementMap.get(resName+"_cost").get.asInstanceOf[String]).toInt)

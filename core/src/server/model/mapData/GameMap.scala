@@ -195,9 +195,7 @@ class GameMap extends StratMap{
      */
     private def computerActions {
 
-        var powTime=new GameTimer()
         AiDirector.calculatePower
-        powTime.printTime("Pow time")
         for (player <- myPlayers)
         {
             val p2= new Array[Player](myPlayers.size)
@@ -257,10 +255,7 @@ class GameMap extends StratMap{
             this.buildTroops
         }
         if (shouldProcess(GameMap.COMPUTER_FREQ)) {
-
-            val cTime=new GameTimer()
             this.computerActions
-            cTime.printTime("Computer actions")
         }
         if (shouldProcess(GameMap.MOVE_FREQ)) {
             this.moveTroops

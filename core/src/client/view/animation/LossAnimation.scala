@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
  */
 class LossAnimation(val loc:IntLoc,count:Int){
 
-
     private var time=20 //Time that animation will run for.
     private val text="-"+count
     private var x=loc.getX()
@@ -23,14 +22,15 @@ class LossAnimation(val loc:IntLoc,count:Int){
 
     def done():Boolean=time<0
 
-    def update(font:BitmapFont,batch:SpriteBatch,c:Camera){
+    def update(){
+    	x+=2
+    	y+=2
+    }
+    
+    def render(font:BitmapFont,batch:SpriteBatch){
         font.setColor(Color.BLACK)
         batch.begin()
-        x+=2
-        y-=2
-        if(c.showDeaths()){
-            font.draw(batch,text,c.transformX(x).toFloat,c.transformY(y).toFloat)
-        }
+        font.draw(batch,text,x.toFloat,y.toFloat)
         batch.end();
         time-=1
     }

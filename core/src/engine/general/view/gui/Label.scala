@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 class Label(xPos:Integer,yPos:Integer,var text:String) extends GuiItem(xPos,yPos){
     
-  def draw(render:ShapeRenderer){  	
+  def draw(render:ShapeRenderer,batch:SpriteBatch){  	
 	  	font.setColor(Color.WHITE) 	
 	  	batch.begin()
     	font.draw(batch,text,xPos,yPos)

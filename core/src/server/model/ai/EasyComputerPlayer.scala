@@ -51,6 +51,7 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
      }
 
      def isNeutral=getPersonality().equals(AiPersona.getNeutralPersona())
+     
      /**
       * This method determines how the AI should spend resources on upgrades.
       */
@@ -67,7 +68,6 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
          }
      }
 
-
     def getStrengthRatio():HashMap[Region,String]=attackStrat.asInstanceOf[SimpleAttackStrategy].attackStrengths  //This method returns strength ratios for regions it plans to attack for debugging purposes.
     def getTargets():HashSet[Region]=myTargets
     def getPotentialField():PotentialField=potentialField
@@ -77,7 +77,6 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
      * produce fewer troops. Integer rounding may create problems here.
      */
     override def getBuildCounts(): HashMap[Region, Integer]={
-
         val buildCounts:HashMap[Region,Integer]=super.getBuildCounts
         var finalCounts=new HashMap[Region,Integer]()
         val buildFactor=myPersonality.reinforceRate

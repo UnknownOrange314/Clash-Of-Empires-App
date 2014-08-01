@@ -44,7 +44,6 @@ object TerritoryPicker{
         	   topRegion.addUpgrade(u)
            }
            for(other<-regions){
-        	   println(regions.size())
                val distance=topRegion.compareDistance(other)
                if(distance==0){
             	   score(other)+=99

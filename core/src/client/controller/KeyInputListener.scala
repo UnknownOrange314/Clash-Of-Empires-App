@@ -2,7 +2,7 @@ package client.controller
 
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
-import network.Client.GameConnection
+import network.client.GameConnection
 import client.view.Camera
 import client.view.panels.GameDisplay
 

@@ -19,7 +19,7 @@ class Button( x:Integer,y:Integer, var text:String,val width:Int,val height:Int)
         this(xPos,yPos,text,90,25)
     }
 
-    def draw(render:ShapeRenderer){
+    def draw(render:ShapeRenderer,batch:SpriteBatch){
       
       
     	render.begin(ShapeType.Filled)

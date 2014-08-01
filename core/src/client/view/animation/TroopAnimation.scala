@@ -1,6 +1,6 @@
 package client.view.animation
 
-import java.awt.Color
+import com.badlogic.gdx.graphics.Color
 import java.awt.Graphics
 import engine.general.utility.Line
 import client.view.Camera
@@ -47,14 +47,12 @@ class TroopAnimation(val myCol:Color, moveLine:Line){
     /**
      * This method renders the animation.
      * @param g The graphics object used.
-     * @param c The camera object used for doing transformations when there is zooming or scrolling.
      */
-    def render(g:ShapeRenderer,c:Camera){
-        g.begin(ShapeType.Line)
-        var x=c.transformX(curX.toInt-5).toFloat
-        var y=c.transformY(curY.toInt-5).toFloat
+    def render(g:ShapeRenderer){
+        g.begin(ShapeType.Filled)
+        g.setColor(0,0,0,0.5f)
         var size=(10).toFloat
-        g.ellipse(x,y,size,size)
+        g.ellipse(curX.toFloat,curY.toFloat,size,size)
         g.end()
     }
 }

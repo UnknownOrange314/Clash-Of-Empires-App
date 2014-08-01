@@ -76,8 +76,6 @@ class HexGen extends MapGen{
                 }else{
                 	z.setType(TerrainType.getType("standard"))
                 }
-                println("Type:"+z.getType())
-
             }
             if (rowOffset==zoneSize/2){
                 rowOffset=0

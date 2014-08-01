@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import javax.imageio.ImageIO
 import java.io.File
-import network.Client.GameConnection
+import network.client.GameConnection
 import engine.rts.model.Resource
 import java.util._
 import java.awt.image.BufferedImage
@@ -28,6 +28,8 @@ class ImageManager(val serverConnection:GameConnection) {
 
     var resourceImages=new ArrayList[Texture]
     var improvementImages=new ArrayList[Texture]
+    
+    readImages()
 
     def getFlag(pName:String)=flagDir+pName+".jpg"
     def unreadImages:Boolean=resourceImages==null
@@ -37,7 +39,7 @@ class ImageManager(val serverConnection:GameConnection) {
     /**
      * This method reads the images that represent the resources and improvements.
      */
-     def readImages() {
+    private def readImages() {
 
         val resourceData:ArrayList[Resource]=serverConnection.getResourceDefs()
         try {

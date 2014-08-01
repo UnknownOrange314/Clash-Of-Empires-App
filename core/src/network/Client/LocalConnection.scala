@@ -1,4 +1,4 @@
-package network.Client
+package network.client
 
 import server.model.mapData.{TerrainType, MapFacade, GameOption}
 import javax.swing.{Timer, JSlider}
@@ -11,7 +11,7 @@ import java.net.Socket
 import java.awt.event.{ActionEvent, ActionListener}
 import util.ArrayList
 import java.awt.Polygon
-import network.Server.{LocalCommunicator}
+import network.server.{LocalCommunicator}
 import server.controller.playerControls.HumanPlayer
 import scala.collection.JavaConversions._
 import server.clientCom.PlayerStats
@@ -54,9 +54,7 @@ class LocalConnection() extends GameConnection(){
      * This function is called at regular intervals to obtain the game state so it can be rendered.
      */
     class updateThread extends ActionListener(){
-        override def actionPerformed(e:ActionEvent){
-            
-        	println("Updating game")
+        override def actionPerformed(e:ActionEvent){   
             MapFacade.updateGame() //Update game.
             gameStateData=MapFacade.compressData()//Get the data for the game state.
 

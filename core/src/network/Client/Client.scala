@@ -1,4 +1,4 @@
-package network.Client
+package network.client
 
 import java.net.{Socket}
 import java.io._

@@ -15,12 +15,23 @@ import server.model.playerData.Region
 import java.awt.geom.Point2D
 import engine.general.utility.Location
 import engine.rts.model.Resource
-import client.clientResources
 
 /**
  * This class contains methods for reading game configuration data from JSON files.
  */
-object ResourceReader{
+object ResourceReader{ 
+  
+    var imageDir="images/"
+    var combatImageDir="images/combat/"
+    var flagDir="images/flags/"
+    var configLoc="mapData/TestMap/"
+
+    def getFlag(nName:String)=flagDir+nName+".jpg" 
+    def resourceDataLoc=configLoc+"Resources.json"
+    def improvementDataLoc=configLoc+"Improvements.json"
+    def regionDataLoc=configLoc+"regions.json"
+    def personalityLoc=configLoc+"AI_Personalities.json"
+    
     def readRegionShapes(regions:ArrayList[Region],saveLoc:String){
         var regionShapes:HashMap[Point2D,Polygon]=null
         try{
@@ -73,8 +84,7 @@ object ResourceReader{
     def readResources():ArrayList[Resource]={
 
         var resources=new ArrayList[Resource]()
-        println(clientResources.resourceDataLoc)
-        var handle=Gdx.files.internal(clientResources.resourceDataLoc)
+        var handle=Gdx.files.internal(resourceDataLoc)
         val text=handle.readString()
         val jsonResources:Option[Any]=JSON.parseFull(text)  
         for (item<-jsonResources){
@@ -101,7 +111,7 @@ object ResourceReader{
     def readUpgrades(resourceList:ArrayList[Resource]):ArrayList[UpgradeDefinition]={
         
         var improvements=new ArrayList[UpgradeDefinition]()
-        var handle=Gdx.files.internal(clientResources.improvementDataLoc)
+        var handle=Gdx.files.internal(improvementDataLoc)
         val text=handle.readString()
         val jsonResources:Option[Any]=JSON.parseFull(text)  
 
@@ -124,7 +134,7 @@ object ResourceReader{
     def readTerrainTypes():ArrayList[TerrainType]={
 
         var terrainTypes=new ArrayList[TerrainType]()
-        val handle=Gdx.files.internal(clientResources.regionDataLoc)
+        val handle=Gdx.files.internal(regionDataLoc)
         val text=handle.readString()
         val jsonResources:Option[Any]=JSON.parseFull(text)  
         

@@ -48,7 +48,6 @@ class Player() extends GamePlayer(){
 
     def setName(){
         myName=myCapital.getNationName()
-        System.out.println("MyName:"+myName)
     }
 
     def getCapital()= myCapital

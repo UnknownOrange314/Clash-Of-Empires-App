@@ -2,7 +2,7 @@ package client.controller
 
 import javax.swing.event.MouseInputAdapter
 import java.awt.event.MouseEvent
-import network.Client.GameConnection
+import network.client.GameConnection
 import client.view.{Camera}
 import java.awt.Polygon
 import scala.collection.Map

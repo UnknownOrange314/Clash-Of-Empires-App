@@ -1,6 +1,6 @@
 package client.view.panels
 
-import network.Client.{GameConnection}
+import network.client.{GameConnection}
 import scala.collection.JavaConversions._
 import java.awt.Color
 import java.awt.{Graphics}
@@ -64,23 +64,23 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
     val scoreLabel = new Label(xPos,yPos+2*ySpace,"Score")
     components.add(scoreLabel)
 
-    val h=30
-    val w=290
+    val dX=30
+    val dY=290
     val resButtons=new Array[Button](4)
 
-    val upMove=new Button(xPos,yPos+3*ySpace,"",w,h)
+    val upMove=new Button(xPos,yPos+3*ySpace,"",dX,dY)
     components.add(upMove)
     resButtons(0)=upMove
 
-    val upProd=new Button(xPos,yPos+4*ySpace,"",w,h)
+    val upProd=new Button(xPos,yPos+4*ySpace,"",dX,dY)
     components.add(upProd)
     resButtons(1)=upProd
 
-    val fProd=new Button(xPos,yPos+5*ySpace,"",w,h)
+    val fProd=new Button(xPos,yPos+5*ySpace,"",dX,dY)
     components.add(fProd)
     resButtons(2)=fProd
 
-    val upTax=new Button(xPos,yPos+6*ySpace,"",w,h)
+    val upTax=new Button(xPos,yPos+6*ySpace,"",dX,dY)
     components.add(upTax)
     resButtons(3)=upTax
 

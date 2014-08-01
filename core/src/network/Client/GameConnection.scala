@@ -1,4 +1,4 @@
-package network.Client
+package network.client
 
 import java.util
 import server.model.UpgradeDefinition

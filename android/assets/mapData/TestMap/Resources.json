@@ -3,20 +3,20 @@
 	
 	  {
 		"name": "coin",
-		"image":"coin.jpg"
+		"image":"coin.png"
 
 	  },{
 		"name":"food",
-		"image":"food.jpg"
+		"image":"food.png"
 	  },{
 		"name":"metal",
-		"image":"metal.jpg"
+		"image":"metal.png"
 	  },{
 		"name":"stone",
-		"image":"stone.jpg"
+		"image":"stone.png"
 	  },{
 			"name":"wood",
-			"image":"wood.jpg"
+			"image":"wood.png"
 		}
 	  
 

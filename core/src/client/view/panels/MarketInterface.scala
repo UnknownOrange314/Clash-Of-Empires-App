@@ -1,6 +1,6 @@
 package client.view.panels
 
-import network.Client.GameConnection
+import network.client.GameConnection
 import java.awt.Color
 import java.io.File
 import java.text.DecimalFormat

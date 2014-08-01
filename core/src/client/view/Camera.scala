@@ -10,11 +10,12 @@ import java.awt.Polygon
 import engine.general.utility.Line
 import engine.general.utility.IntLoc
 import java.awt.event.MouseEvent
+import com.badlogic.gdx.graphics.OrthographicCamera
 
 /**
  * This class is responsible for handling transformations when the user zooms or scrolls
  */
-class Camera( w:Integer, h:Integer) {
+class Camera( w:Integer, h:Integer,val camera:OrthographicCamera) {
 
     val viewWidth=w.toDouble
     val viewHeight=w.toDouble

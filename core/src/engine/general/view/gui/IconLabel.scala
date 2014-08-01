@@ -13,7 +13,9 @@ class IconLabel(xPos:Integer,yPos:Integer,val image:Texture,val sz:Integer) exte
     val drawX=xPos.toFloat
     val drawY=yPos.toFloat
     val size=sz.toFloat
-	def draw(render:ShapeRenderer){
+	def draw(render:ShapeRenderer,batch:SpriteBatch){
+    	batch.begin()
     	batch.draw(image, drawX, drawY, size, size)
+    	batch.end()
     }
 }

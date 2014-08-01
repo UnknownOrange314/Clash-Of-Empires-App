@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import javax.imageio.ImageIO
 import java.io.File
-import network.Client.GameConnection
+import network.client.GameConnection
 import engine.rts.model.Resource
 import java.util._
 import java.awt.image.BufferedImage
@@ -39,11 +39,29 @@ class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,he
     var labels=new HashMap[IconLabel,Label]()
     var flags=new HashMap[String,Texture]()
     
+    var scoreList=new HashMap[String,Label]
+    
     def loadFlags(){
-        //The nation names probably should not be hardcoded
+      
         for( a <- 0 to nationNames.length-1){
             var file=imageData.getFlag(nationNames(a))
             flags.put(nationNames(a),new Texture(file))
+        }
+                
+        var xD=20
+        var yD=20
+        
+        for ((name)<-nationNames){            
+        	components.add(new Label(xD,yD,name))
+            components.add(new IconLabel(xD,yD-10,flags(name),20))
+            var sLabel=new Label(xD+65,yD,"")
+        	components.add(sLabel)
+	        scoreList.put(name,sLabel)
+            xD+=100
+            if (x>200){
+                xD=20
+                yD+=50
+            }                      
         }
     }
     
@@ -52,23 +70,14 @@ class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,he
             loadFlags()
         }
         
-        components.clear()
         var xD=20
         var yD=20
         stats=data.nationInfo
 
         for ((name,pop:String)<-stats){
             var str:String=pop.asInstanceOf[String]
-            var res=NumberFormat.getNumberInstance(Locale.US).format(str.toInt)
-            components.add(new Label(xD,yD,name))
-            xD+=50
-            components.add(new IconLabel(xD,yD-10,flags(name),20))
-            components.add(new Label(xD+65,yD,res))
-            xD+=100
-            if (x>200){
-                xD=20
-                yD+=50
-            }
+            var score=NumberFormat.getNumberInstance(Locale.US).format(str.toInt)
+            scoreList.get(name).setText(score)
         }
     }
 }

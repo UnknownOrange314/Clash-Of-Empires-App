@@ -1,4 +1,4 @@
-package network.Server
+package network.server
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import server.model.mapData.GameOption

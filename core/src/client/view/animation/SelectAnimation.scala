@@ -1,10 +1,11 @@
 package client.view.animation
 
-import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Polygon
 import java.awt.Shape
 import java.awt.event.MouseEvent
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 /**
  * This class represents an animation for clicking on a region.
@@ -24,19 +25,19 @@ class SelectAnimation(val regionShape:Polygon,val mouseClick:MouseEvent){
      * @param region //The shape of the region about to be drawn in model coordinates
      * @return
      */
-    def update(g:Graphics2D,p:Shape,region:Polygon,color:Color):Boolean={
+    def update(g:ShapeRenderer,p:Shape,region:Polygon,color:Color):Boolean={
         if(regionShape==region){
 
             //We will produce an animation that makes the color slowly change from white to the region color.
             time+=pi/per
             val amp=0.5*(Math.cos(time)+1)
-            val red=(myColor.getRed-color.getRed)*amp+color.getRed
-            val green=(myColor.getGreen-color.getGreen)*amp+color.getGreen
-            val blue=(myColor.getBlue-color.getBlue)*amp+color.getBlue
-            val drawCol=new Color(red.toInt,green.toInt,blue.toInt)
+            val red=(myColor.r-color.r)*amp+color.r
+            val green=(myColor.g-color.g)*amp+color.g
+            val blue=(myColor.b-color.b)*amp+color.b
+            val drawCol=new Color(red.toFloat,green.toFloat,blue.toFloat,1.0f)
 
             g.setColor(drawCol)
-            g.fill(p)
+            System.err.println("Area is not being filled")
             return true
         }
         return false

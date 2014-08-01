@@ -16,7 +16,6 @@ class DataLog{
     var tNum=0
 
     def updateLog(pList:ArrayList[Player]){
-        println("Turn :"+tNum)
         tNum+=1
     }
 

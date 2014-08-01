@@ -2,8 +2,7 @@ package client.view.panels
 
 import java.text.NumberFormat
 import java.util.Locale
-import network.Client.GameConnection
-import java.awt.Color
+import network.client.GameConnection
 import java.util.ArrayList
 import server.model.UpgradeDefinition
 import collection.mutable.Map
@@ -14,6 +13,8 @@ import client.controller.RegionCommand
 import engine.general.view.drawArea
 import engine.general.view.gui.{Label, GuiItem,Button,IconLabel}
 import engine.general.view.Display
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import com.badlogic.gdx.graphics.Color
 
 class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnection:GameConnection) extends drawArea(x,y,width,height){
 
@@ -22,7 +23,8 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
     var buttons= Map[String,Button]()
 
     def drawRegionState(state:RegionState){
-
+    	
+ 
         selRegion=state
         components.clear()
         buttons.clear()
@@ -89,16 +91,4 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
     
     def isOn():Boolean=on
 
-    //TODO: Find a way to implement this using OpenGL.
-    def drawToPanel(pGraphics:Graphics,disp:Display){
-        if (on){
-            //super.drawToPanel(pGraphics,disp)
-        }
-    }
-    
-    def render(){
-        if (on){
-           // super.render(imageGraphics)
-        }
-    }
 }

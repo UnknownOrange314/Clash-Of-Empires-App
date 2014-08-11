@@ -1,7 +1,6 @@
 package engine.general.model
 
 import server.DataLog
-import engine.general.utility.GameTimer
 
 /**
  * This class represents the virtual "play area" for the game.

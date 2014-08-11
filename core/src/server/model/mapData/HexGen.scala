@@ -9,22 +9,13 @@ import server.model.playerData.Region
 import java.awt.geom.Rectangle2D
 
 
-object HexGen{
-  
-  
-
-}
-
 /**
  * This class generates a simple map with the regions arranged in a grid.
  */
 class HexGen extends MapGen{
   
-  
-    def generateShape(regionList:ArrayList[Region]){
-        
+    def generateShape(regionList:ArrayList[Region]){ 
     	for(region:Region<-regionList){  
-    	  
             val cLoc=region.getCenterLoc
             val hexSize=82.0 //Size of hex from center to edge intersection. 
             val xPts: Array[Int] = new Array[Int](6)
@@ -72,8 +63,19 @@ class HexGen extends MapGen{
                 var z: Region=new Region(m.getPlayers.get(0),cityLoc)
                 regions.add(z)
                 if(Math.random<0.1){
-                    z.setType(TerrainType.getType("water"))
-                }else{
+                    var waterBorder=false
+                	for(border<-z.getBorderRegions()){
+                		if(z.getType==TerrainType.getType("water")){
+                			waterBorder=true
+                		}
+                	}
+                	if(waterBorder==true){
+                		z.setType(TerrainType.getType("water"))  
+                	}else{
+                		z.setType(TerrainType.getType("standard"))
+                	}
+                }
+                else{
                 	z.setType(TerrainType.getType("standard"))
                 }
             }

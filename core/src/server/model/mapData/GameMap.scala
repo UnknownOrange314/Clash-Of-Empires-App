@@ -13,7 +13,6 @@ import server.model.ai.EasyComputerPlayer
 import server.model.playerData._
 import engine.general.utility.IntLoc
 import engine.general.utility.Line
-import engine.general.utility.GameTimer
 import java.awt.Polygon
 import scala.collection.JavaConversions._
 import java.util.ArrayList
@@ -238,7 +237,6 @@ class GameMap extends StratMap{
      */
     def updateGame {
 
-        val gTime=new GameTimer()
         for (p <- myPlayers) {
             if (p.isInstanceOf[HumanPlayer]) {
                 (p.asInstanceOf[HumanPlayer]).sendStatistics //This probably belongs in the act() method in player.
@@ -266,10 +264,7 @@ class GameMap extends StratMap{
             }
         }
 
-        if(gTime.getTime*upRate>1.0)
-        {
-         //   log.write("Update is taking too long:"+gTime.getTime)
-        }
+      
         updateRegions
         battle
     }
@@ -299,31 +294,28 @@ class GameMap extends StratMap{
     def compressData: GameStateData = {
         val regionData: ArrayList[RegionState] = new ArrayList[RegionState]
         for (r <- myRegions) {
-            val regionState: RegionState = new RegionState
-            regionState.myOwner=r.getOwnerNum
             val troopCounts: ArrayList[Integer] = new ArrayList[Integer]
-            import scala.collection.JavaConversions._
             for (p <- myPlayers) {
                 troopCounts.add(p.countTroops(r))
             }
-            regionState.addTroopCounts(troopCounts)
-            regionState.addImprovementData(r.getImprovements)
-            regionState.addResourceNum(r.getResourceNumber)
+            val regionState = (new RegionState.Builder())
+            									.troopCounts(troopCounts)
+            									.improvementData(r.getImprovements)
+            									.resourceNum(r.getResourceNumber)
+            									.name(r.getName)
+            									.owner(r.getOwnerNum)
+            									.troopProduction(r.getTroopProduction)
+            									.income(r.incomeString)
+            									.defenseBonus((r.getDefenseBonus).toFloat)
+            									.attackBonus((r.getAttackBonus).toFloat)
+            									.hitPoints(r.getHitPoints)
+            									.terrain(r.getType)
+            									.population(r.getPopulation)
+            									.capital(r.isCapital)
+            									.build()
+
             regionData.add(regionState)
-            regionState.setName(r.getName)
-            regionState.setTroopProd(r.getTroopProduction)
-            regionState.setIncome(r.incomeString)
-            regionState.setDefenseBonus(r.getDefenseBonus)
-            regionState.setAttackBonus(r.getAttackBonus)
-            regionState.setHitPoints(r.getHitPoints)
-            regionState.setTerrain(r.getType)
-            regionState.setPopulation(r.getPopulation)
-            if (r.isCapital) {
-                regionState.setCapital(true)
-            }
-            else {
-                regionState.setCapital(false)
-            }
+           
         }
         
         val moveData: HashMap[IntLoc, Line] = new HashMap[IntLoc, Line]
@@ -342,10 +334,17 @@ class GameMap extends StratMap{
                 deathCounts.put(i, pDeaths.get(i))
             }
         }
-        val data: HashMap[String, String] = new HashMap[String, String]
+        val nationData: HashMap[String, String] = new HashMap[String, String]
         for (p <- myPlayers) {
-            data.put(p.getName, "" + p.getPopulation)
+            nationData.put(p.getName, "" + p.getPopulation)
         }
-        return new GameStateData(deathCounts, myOptions.getRemainingTime, regionData, moveData, myMarket.getAllPrices, data)
+        return (new GameStateData.Builder())
+        		.deathCounts(deathCounts)
+        		.passTime(myOptions.getRemainingTime)
+        		.regionStates(regionData)
+        		.conflictLocs(moveData)
+        		.marketPrices(myMarket.getAllPrices)
+        		.nationInfo(nationData)
+        		.build();
     }
 }

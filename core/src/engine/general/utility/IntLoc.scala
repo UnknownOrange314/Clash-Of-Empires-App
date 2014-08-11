@@ -7,23 +7,14 @@ package engine.general.utility
  */
 class IntLoc(xc:Int, yc:Int){
 
-    var myX: Int=xc
-	var myY: Int=yc
+    private var myX: Int=xc
+	private var myY: Int=yc
+	
 	def getX(): Integer=myX
-	def  getY(): Integer=myY
+	def getY(): Integer=myY
 	
-	def setLocation(x:Int, y:Int){
-		myX=x
-		myY=y
-	}
-	
-	def setX(x:Int){
-		myX=x
-	}
-	
-	def setY(y: Int){
-		myY=y
-	}
+
+		
 	def compareDistance(loc: Location): Double=Math.sqrt(Math.pow(myX-loc.getX(),2)+Math.pow(myY-loc.getY(),2))
 
     override def hashCode():Int=myY*10000+myX

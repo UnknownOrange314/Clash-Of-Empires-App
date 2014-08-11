@@ -67,7 +67,7 @@ class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends drawAr
 	  
 		var rNum=0
 		for(regionState<-gameState.regionStates){
-			val ownerNum=regionState.getOwnerNum()
+			val ownerNum=regionState.ownerNum
 			val regionShape=regionShapes.get(rNum)
 			renderHex(regionShape,StratMap.playerColors(ownerNum))
 			rNum+=1

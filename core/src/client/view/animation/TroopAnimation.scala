@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 /**
  * This class renders troop movements.
  */
-class TroopAnimation(val myCol:Color, moveLine:Line){
+class TroopAnimation(moveLine:Line){
     
     private var count=0
     private val maxCount=30.0

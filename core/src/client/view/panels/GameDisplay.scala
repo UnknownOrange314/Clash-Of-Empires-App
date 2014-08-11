@@ -3,7 +3,6 @@ package client.view.panels
 import server.clientCom.{PlayerStats, GameStateData, RegionState}
 import server.model.playerData.Region
 
-import client.controller.{KeyInputListener, MouseInputListener}
 import client.view.animation.{SelectAnimation, TroopAnimation, LossAnimation}
 import client.view.component.HealthBar
 import client.controller.InputProcess
@@ -61,11 +60,9 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     var scoreDisplay=InterfaceBuilder.createScorePanel(imageData)
     addComponent(scoreDisplay)
     
-
     //This gives options for each region.
     var regionControl=InterfaceBuilder.createRegionPanel(serverConnection)
     addComponent(regionControl)
-    regionControl.show()
 
     //This shows important game messages.
     var logPanel=InterfaceBuilder.createLogPanel(serverConnection)
@@ -87,7 +84,6 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
 
     //Add a class to deal with input.
     var inProcess=new InputProcess(serverConnection, gameView,this,regionControl,playerInfo)
-    
     var healthBars=new HashMap[Int,HealthBar]
 
     /**
@@ -101,16 +97,19 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
             val builtUpgrades = new ArrayList[Integer]
             for (upgradeNum <- 0 until serverConnection.getImprovementCount()) {
                 if (upgradeList.get(upgradeNum) == true) {
+                	val SIZE=25
                     builtUpgrades.add(upgradeNum)
-                    var dX=xPos + 20 * (upgradeNum % 2).toFloat
-                    var dY=yPos +20+ 20 * (upgradeNum / 2).toFloat
-                    var size=(25.0).toFloat
-                    batch.draw(imageData.getUpgradeImage(upgradeNum), dX,dY ,size,size)                  
+                    var dX=xPos +SIZE * (upgradeNum % 2).toFloat
+                    var dY=yPos +SIZE+ SIZE * (upgradeNum / 2).toFloat
+                    var size=(SIZE).toFloat
+                    batch.draw(imageData.getUpgradeImage(upgradeNum), dX,dY ,SIZE.toFloat,SIZE.toFloat)                  
                 }
             }
         }
     }
 
+
+    
     /**
      * This method renders information about a region.
      * @param regionState The state of the current region.
@@ -118,23 +117,27 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
      * @param yPos The y position of the region center.
      */
     private def renderRegionState(rNum:Int,color:Color,regionState:RegionState,xPos:Int,yPos:Int){
-    	batch.begin()
-        drawFont.draw(batch,regionState.name,xPos-40,yPos-35)
-        var scale = 18 * gameView.getTroopLabelScale()
+    	val NAME_OFFSET=new IntLoc(-40,-35)
+    	val TROOP_OFFSET=new IntLoc(-30,30)
+    	val NUM_OFFSET=new IntLoc(-30,30)
+    	val TROOP_SIZE=20
+        batch.begin()
+    	drawText(regionState.name,xPos,yPos,NAME_OFFSET)
+        var scale = TROOP_SIZE * gameView.getTroopLabelScale()
         if(scale>0){ //Do not draw troop label if it will be too small
-            batch.draw(imageData.armyImage,xPos-30,yPos+30,20,20)
-        	drawFont.draw(batch,""+regionState.getOwnerTroopCount(),xPos-30,yPos+30)
+            drawImage(imageData.armyImage,xPos,yPos,TROOP_OFFSET,TROOP_SIZE)
+            drawText(""+regionState.getOwnerTroopCount(),xPos,yPos,NUM_OFFSET)
         }
     	batch.end()
     	var h:HealthBar=null
     	if(!healthBars.containsKey(rNum)){
-    		h=new HealthBar(xPos,yPos,50,10,Region.MAX_POINTS)
+    		h=HealthBar.createHealthBar(xPos,yPos,Region.MAX_POINTS)
     	}else{
     	  h=healthBars.get(rNum)
     	}
     	h.setX(xPos)
     	h.setY(yPos)   	
-        h.setValue(regionState.getHitPoints)
+        h.setValue(regionState.hitPoints)
         h.draw(sRender,batch)
         healthBars.put(rNum,h) 
     }
@@ -144,11 +147,12 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
      * @param rallyPoints Arrows that represent player troop movement.
      * @param conflictLocs Locations where there is a conflict.
      */
-    private def renderTroopMovement(rallyPoints:HashSet[Line],conflictLocs:HashMap[IntLoc,Line],polyMap:HashMap[Shape,Color]){
+    private def renderTroopMovement(rallyPoints:HashSet[Line],conflictLocs:HashMap[IntLoc,Line],polyMap:ArrayList[Polygon]){
         
+        val ARROW_SCALE=0.8
         for (line <- rallyPoints) {
             var trans=gameView.transform(line)
-            trans.shrink(0.8)
+            trans.shrink(ARROW_SCALE)
             trans.drawArrow(sRender)
         }
 
@@ -157,9 +161,9 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
             val cX=gameView.transformX(cLine.xA).toDouble
             val cY=gameView.transformY(cLine.yA).toDouble
             val p=new java.awt.geom.Point2D.Double(cX,cY)
-            for((poly,color)<-polyMap) {
+            for((poly)<-polyMap) {
                 if(poly.contains(p)){
-                	animations.addAttackAnimation(color,cLine)
+                	animations.addAttackAnimation(cLine)
                 }
             }
         }
@@ -176,7 +180,6 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
      */
     def update() {
 
-        var ownerData=new HashMap[Shape,Color]()
         //Do not draw anything if the server has not sent any data.
         if (serverConnection.nullData()) {
             return
@@ -199,13 +202,12 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
         var rNum = 0
         for (regionState <- gameStateData.regionStates) {
             	
-            val ownerNum = regionState.getOwnerNum()
+            val ownerNum = regionState.ownerNum
             val regionShape = regionShapes.get(rNum)
             
             //Determine if we have clicked on a region and must generate an animation.
-            animations.updateSelectAnimation(inProcess,regionShape)
+            animations.createSelectAnimation(inProcess,regionShape)
  	      
-            ownerData.put(regionShape,StratMap.playerColors(ownerNum))
                       
             //This draws a filled hexagon.
             if(animations.hasSelectAnimation||inProcess.getClick==null){ 
@@ -213,12 +215,13 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
             }
             
             //Draw hexagon boundaries.
+            val HEX_SIDES=6
             DrawHelper.drawHexagon(regionShape, sRender,StratMap.playerColors(ownerNum))
             sRender.begin(ShapeType.Line)
         	var col=StratMap.playerColors(ownerNum)
         	sRender.setColor(Color.BLACK)
-        	var pts=new Array[Float](12)
-        	for(i<-0 until 6){
+        	var pts=new Array[Float](2*HEX_SIDES)
+        	for(i<-0 until HEX_SIDES){
         		pts(2*i)=regionShape.xpoints(i)
         		pts(2*i+1)=regionShape.ypoints(i)
         	}
@@ -237,32 +240,36 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
 
             //We will render resources
             if (gameView.renderResources()){
-            	var x=(xPos-30).toFloat
-            	var y=(yPos-20).toFloat
-            	var sz=(20).toFloat
-                batch.draw(imageData.getResourceImage(regionState.getResourceNum()), x,y,sz,sz)
+            	val SIZE=20
+            	val OFFSET=new IntLoc(-30,-20)
+            	drawImage(imageData.getResourceImage(regionState.resourceNum),xPos,yPos,OFFSET,SIZE)
             }
 
             //Draw the upgrade list.
-            renderUpgrades(regionState.getUpgradeData(),xPos,yPos)
+            renderUpgrades(regionState.upgradeData,xPos,yPos)
             if(regionState.isCapital){
-              	batch.draw(imageData.capitalImage,xPos+10,yPos-30)
+            	val SIZE=20
+            	val OFFSET=new IntLoc(10,-30)
+            	drawImage(imageData.capitalImage,xPos,yPos,OFFSET,SIZE)
             }
            
-             batch.end()
+            batch.end()
             //Show the troop count.
             renderRegionState(rNum,StratMap.playerColors(ownerNum),regionState,xPos,yPos)
             rNum = rNum + 1         
         }
-           
+          
         showDeaths(gameStateData.deathCounts)
-        renderTroopMovement(rallyPoints,gameStateData.conflictLocs,ownerData)
+        renderTroopMovement(rallyPoints,gameStateData.conflictLocs,regionShapes)
         animations.updateAnimations()
-
-        regionControl.render()
+        if(regionControl.isOn()){
+        	println(regionControl.isOn())
+        	regionControl.render()    
+        }
         miniMap.render(gameStateData, regionShapes)
         logPanel.render(serverConnection.myStats.failLog)
         scoreDisplay.render()
         playerInfo.render()
+        
     }
 }

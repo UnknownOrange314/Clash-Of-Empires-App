@@ -7,7 +7,7 @@ import javax.swing._
 import java.util.ArrayList
 import engine.rts.model.OptionBase
 
-class GameOption(numSlider:JSlider,val nTroop:Boolean) extends OptionBase(numSlider){
+class GameOption(numSlider:Int,val nTroop:Boolean) extends OptionBase(numSlider){
 
     var players=new ArrayList[HumanPlayer]//This represents a list of players that have connected to the client
     def neutralTroop()=nTroop

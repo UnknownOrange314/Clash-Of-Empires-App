@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
-class Label(xPos:Integer,yPos:Integer,var text:String) extends GuiItem(xPos,yPos){
+class Label(xPos:Integer,yPos:Integer,var text:String,font:BitmapFont) extends GuiItem(xPos,yPos){
     
   def draw(render:ShapeRenderer,batch:SpriteBatch){  	
 	  	font.setColor(Color.WHITE) 	

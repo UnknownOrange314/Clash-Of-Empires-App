@@ -36,7 +36,7 @@ public class MapFacade {
     }
     
     public static void setupTestMap(int iterations,int numPlayers,boolean nTroops){
-        GameOption opt=new GameOption(new JSlider(0,10,numPlayers),nTroops);
+        GameOption opt=new GameOption(numPlayers,nTroops);
         setupMap(opt);
         for(int i=0;i<iterations;i++){
             updateGame();

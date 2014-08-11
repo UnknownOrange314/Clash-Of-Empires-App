@@ -72,8 +72,13 @@ class Camera( w:Integer, h:Integer,val camera:OrthographicCamera) {
         val x1=transformX(l.xA.toInt)
         val x2=transformX(l.xB.toInt)
         val y1=transformY(l.yA.toInt)
-        val y2=transformY(l.yB.toInt)
-        return new Line(x1.toShort,y1.toShort,x2.toShort,y2.toShort)
+        val y2=transformY(l.yB.toInt)        
+        return (new Line.LineBuilder)
+            .x1(x1.toShort)
+        	.x2(x2.toShort)
+        	.y1(y1.toShort)
+        	.y2(y2.toShort)
+        	.build()
     }
 
     def moveUp() {

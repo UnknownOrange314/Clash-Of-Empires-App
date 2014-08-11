@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 abstract class GuiItem(val x:Integer,val y:Integer){
   
-	val font=new BitmapFont()
-	font.setColor(Color.BLACK)
+
 	
 	val xPos=x.toFloat
 	val yPos=y.toFloat

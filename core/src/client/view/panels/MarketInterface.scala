@@ -1,7 +1,7 @@
 package client.view.panels
 
 import network.client.GameConnection
-import java.awt.Color
+import com.badlogic.gdx.graphics.Color
 import java.io.File
 import java.text.DecimalFormat
 import java.util
@@ -14,6 +14,7 @@ import engine.rts.model.Resource
 import engine.general.view._
 import engine.general.view.gui.{Label, Button,IconLabel}
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 
 /**
  * This class represents the interface for using the game market.
@@ -30,11 +31,13 @@ class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  ext
     val colSize=100
     val rowSize=30
 
-    components.add(new Label(x,y,"Resource name"))
+    var font=new BitmapFont()
+    font.setColor(Color.WHITE)
+    components.add(new Label(x,y,"Resource name",font))
     xP+=colSize
-    components.add(new Label(x,y,"Sell"))
+    components.add(new Label(x,y,"Sell",font))
     xP+=colSize
-    components.add(new Label(x,y,"Buy"))
+    components.add(new Label(x,y,"Buy",font))
     xP=20
     yP+=rowSize
 
@@ -44,15 +47,30 @@ class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  ext
         if (resource.getName() != "coin"){
             
         	val resourceImage=new Texture("images/resources/"+resource.getResourceFile())
-            components.add(new IconLabel(x,y,resourceImage,20))
+            components.add((new IconLabel.Builder)
+            				.xPos(x)
+            				.yPos(y)
+            				.image(resourceImage)
+            				.build()
+            				)
             xP+=colSize
 
-            var sellButton:Button = new Button(x,y+12,"Sell $" + resourceName)
+            var sellButton:Button =(new Button.ButtonBuilder)
+            						.x(x)
+            						.y(y+12)
+            						.text("Sell $" + resourceName)
+            						.font(font)
+            						.build()
             components.add(sellButton)
             sellMap.put(resourceName, sellButton)
             xP+=colSize
 
-            var buyButton:Button = new Button(x,y+12,"Buy $" + resourceName)
+            var buyButton:Button =(new Button.ButtonBuilder)
+            						.x(x)
+            						.y(y+12)
+            						.text("Buy $" + resourceName)
+            						.font(font)
+            						.build()
             components.add(buyButton)
             buyMap.put(resourceName, buyButton)
             yP+=rowSize

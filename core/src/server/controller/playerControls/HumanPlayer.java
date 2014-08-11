@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.Semaphore;
 import server.model.playerData.Player;
-import scala.collection.JavaConversions.*;
+import client.controller.ClickCommand;
 
 public class HumanPlayer extends Player {
 
@@ -119,23 +119,24 @@ public class HumanPlayer extends Player {
         try{
             Object serverInput;
             while((serverInput=displayCom.readFromClient())!=null){
-                if(serverInput instanceof MouseEvent){
-                    MouseEvent input=(MouseEvent)serverInput;
-                    if(input.getButton()==MouseEvent.BUTTON3){
+                if(serverInput instanceof ClickCommand){
+                	
+                    ClickCommand input=(ClickCommand)serverInput;
+                    if(input.clickType()==ClickCommand.RIGHT_CLICK()){
                         if(getRightClickA()==null)
-                            setRightClickA(input.getX(),input.getY());
+                            setRightClickA(input.x(),input.y());
                         else
-                            setRightClickB(input.getX(),input.getY());
+                            setRightClickB(input.x(),input.y());
                     }
 
                     /*
                     If the user left clicks on something, then the saved right clicks should be deleted.
                     Also, we need to turn on the interface for doing things with a region.
                      */
-                    if(input.getButton()==MouseEvent.BUTTON1){
+                    if(input.clickType()==ClickCommand.LEFT_CLICK()){
                         
-                        int x=input.getX();
-                        int y=input.getY();
+                        int x=input.x();
+                        int y=input.y();
                         rightClickA=null;
                         rightClickB=null;
 
@@ -191,12 +192,16 @@ public class HumanPlayer extends Player {
                     short y=(short)start.yCenterRender();
                     short x2=(short)destination.xCenterRender();
                     short y2=(short)destination.yCenterRender();
-                    rallyData.add(new Line(x,y,x2,y2));
+                    rallyData.add((new Line.LineBuilder())
+                    				.x1(x)
+                    				.y1(y)
+                    				.x2(x2)
+                    				.y2(y2)
+                    				.build());
                 }
             }
         }
-
-
+        
         PlayerStats stats=new PlayerStats(resources,elapsedTime,getScore(),rallyData,rightClickA,rightClickB,upkeep,income,myResources().getFailMessages(),myResearch());
         try{
             displayCom.writeToClient(stats);
@@ -274,6 +279,8 @@ public class HumanPlayer extends Player {
 
     /**
      * This method processes user input for move commands.
+     * TODO: Figure out what to do when a player clicks on a point that is
+     * not within a region.
      */
     private void processMoveCommand() {
 
@@ -285,9 +292,9 @@ public class HumanPlayer extends Player {
         //Get the regions for the move command.
         Region start=findRegion(clickA);
         Region end=findRegion(clickB);
-
+       
         synchronized(myRegions()){
-            if(start.equals(end)){
+            if(start==end&&start!=null){
                 clearRallyPoints(start);//Cancel movement between regions.
             }
             else if(start!=null&&end!=null){

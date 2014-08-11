@@ -2,8 +2,7 @@ package engine.rts.model
 
 import javax.swing.JSlider
 
-class OptionBase (val numSlider:JSlider){
-
+class OptionBase (val numSlider:Int){
     val defaultMapDir = "mapData/TinyMap/"
     private var mapName=defaultMapDir//This is the name of the map we will use
     private var time=0.0
@@ -18,7 +17,7 @@ class OptionBase (val numSlider:JSlider){
     def getTimeElapsed()= System.nanoTime()-time
     def getRemainingTime()=maxTime-getTimeElapsed()
     def isDone()=getTimeElapsed()<maxTime
-    def getPlayerCount()=numSlider.getValue()
+    def getPlayerCount()=numSlider
     def setMapName(name:String){
         mapName=name.substring(0, name.length()-4)
     }

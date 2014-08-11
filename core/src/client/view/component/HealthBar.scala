@@ -7,6 +7,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+object HealthBar{
+	val HEIGHT=10
+	val WIDTH=50
+	def createHealthBar(x:Int,y:Int,maxVal:Int):HealthBar={
+		return new HealthBar(x,y,WIDTH,HEIGHT,maxVal)
+	}
+}
+
 class HealthBar(x:Int,y:Int, val w:Int,val h:Int,val maxVal:Int) extends GuiItem(x,y){
 
 	var fX=x.toFloat
@@ -15,6 +23,7 @@ class HealthBar(x:Int,y:Int, val w:Int,val h:Int,val maxVal:Int) extends GuiItem
 	var fH=h.toFloat
 	
     var curVal=maxVal
+    
     def setValue(c:Int)=curVal=c
 
     def setX(x:Int){

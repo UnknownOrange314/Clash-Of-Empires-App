@@ -309,6 +309,7 @@ class Player() extends GamePlayer(){
      * @param end The destination region.
      */
     def setRallyPoint(start:Region,end:Region){
+
         if(start.getOwner()!=this){
             return
         }
@@ -319,7 +320,7 @@ class Player() extends GamePlayer(){
             for(border<-borders.get(start)){
                 if(border.end==end){
                     if(border.isOn()){
-                        border.turnOff()
+                       // border.turnOff()
                     }
                     else{
                         border.turnOn()
@@ -340,12 +341,15 @@ class Player() extends GamePlayer(){
      *  -Force a player to occupy a region for a period of time before it changes ownership.
      */
     def moveTroops(){
+
         var copy=new HashSet[Region]()
         copy.addAll(regions)
         for(r:Region<-copy){
             for(conn:RegionBorder<-borders.get(r)){
                 if(conn.isOn()){
-                    
+                    if(this.isInstanceOf[HumanPlayer]){
+                    	println("Adding rally point")
+			    	}
                     var moveArmy=myTroops.get(r).createMovementArmy(research.getMoveBonus()*r.getMovement())//Create army for movement.
                     val dest=conn.moveTroops(moveArmy)
                     this.addArmy(moveArmy,dest)

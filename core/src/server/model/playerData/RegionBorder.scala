@@ -38,7 +38,12 @@ class RegionBorder(val owner:Player,val start:Region, val end:Region){
     def getLine():Line= {
         val s=start.getCenterLoc
         val e=end.getCenterLoc
-        return new Line(s.getX().toShort,s.getY().toShort,e.getX().toShort,e.getY().toShort)
+        return (new Line.LineBuilder)
+            .x1(s.getX().toShort)
+            .y1(s.getY().toShort)
+            .x2(e.getX().toShort)
+            .y2(e.getY().toShort)
+            .build()
     }
 
     def startSiege(troops:Army):Region={

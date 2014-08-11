@@ -1,5 +1,16 @@
 package engine.general.view
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
+import javax.imageio.ImageIO
+import java.io.File
+import network.client.GameConnection
+import engine.rts.model.Resource
+import java.util._
+import java.awt.image.BufferedImage
+import scala.collection.JavaConversions._
+
+import engine.general.utility.IntLoc
 import network.client.GameConnection
 import java.awt.image.BufferedImage
 import java.util.ArrayList
@@ -34,5 +45,12 @@ abstract class Display(var serverConnection:GameConnection){
      * This method adds a drawArea object to the display.
      */
     def addComponent(c:drawArea)=gameComponents.add(c)
-
+    
+    def drawText(text:String,x:Int,y:Int,offset:IntLoc){
+    	drawFont.draw(batch,text,x+offset.getX(),y+offset.getY())
+    }
+    
+    def drawImage(image:Texture,xPos:Int,yPos:Int,offset:IntLoc,size:Int){
+        batch.draw(image,xPos+offset.getX(),yPos+offset.getY(),size,size)  
+    }
 }

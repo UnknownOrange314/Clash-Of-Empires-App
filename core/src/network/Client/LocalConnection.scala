@@ -1,7 +1,6 @@
 package network.client
 
 import server.model.mapData.{TerrainType, MapFacade, GameOption}
-import javax.swing.{Timer, JSlider}
 import server.model.playerData.{Player}
 import java.util
 import server.model.UpgradeDefinition
@@ -17,7 +16,7 @@ import scala.collection.JavaConversions._
 import server.clientCom.PlayerStats
 import engine.general.network.DisplayCommunicator
         import engine.rts.model.Resource
-
+import com.badlogic.gdx.utils.Timer
 /**
  * This class will represent a local connection with the game data and will not involve networking.
  */
@@ -33,14 +32,15 @@ class LocalConnection() extends GameConnection(){
     var commandOutput:ObjectOutputStream=_
 
     val NUM_PLAYERS: Int = 4
-    val opt: GameOption = new GameOption(new JSlider(0, 14, NUM_PLAYERS),true)
+    val opt: GameOption = new GameOption(NUM_PLAYERS,true)
     val gameListener:DisplayCommunicator=new LocalCommunicator(1,opt)
     opt.addPlayer(gameListener)
     gameListener.start()
     setupGame()
 
     //Initialize the timer and wait for the callback methods to be passed
-    var updateTimer=new Timer(50,new updateThread())
+    var updateTimer=new Timer()
+    updateTimer.scheduleTask(new updateThread,0.0f,0.05f)
 
     def setupGame(){
         MapFacade.setupMap(opt)
@@ -53,8 +53,8 @@ class LocalConnection() extends GameConnection(){
     /**
      * This function is called at regular intervals to obtain the game state so it can be rendered.
      */
-    class updateThread extends ActionListener(){
-        override def actionPerformed(e:ActionEvent){   
+    class updateThread extends Timer.Task(){
+        override def run(){   
             MapFacade.updateGame() //Update game.
             gameStateData=MapFacade.compressData()//Get the data for the game state.
 

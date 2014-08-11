@@ -6,12 +6,15 @@ import java.awt.Shape
 import java.awt.event.MouseEvent
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import java.awt.geom.Point2D.Float
+import java.awt.geom.Point2D
 
 /**
  * This class represents an animation for clicking on a region.
  * @param regionShape The shape of the region in model coordinates.
+ * //TODO: Refactor mouseClick parameter.
  */
-class SelectAnimation(val regionShape:Polygon,val mouseClick:MouseEvent){
+class SelectAnimation(val regionShape:Polygon,val mouseClick:Point2D){
 
     val pi=3.14159
     val myColor=Color.WHITE

@@ -20,7 +20,7 @@ class LogPanel(x:Integer,y:Integer,w:Integer,h:Integer,val gameConnection:GameCo
 
     private var log=new LinkedList[String]
     log.add("Testing alert view")
-    private var top=new Label(50,50,"Messages")
+    private var top=new Label(50,50,"Messages",font)
     var font=new BitmapFont()
     font.setColor(Color.WHITE)
     

@@ -1,6 +1,5 @@
 package engine.general.model
 
-import server.DataLog
 
 /**
  * This class represents the virtual "play area" for the game.
@@ -8,7 +7,6 @@ import server.DataLog
  */
 abstract class PlayArea{
    
-   private var log=new DataLog() //This represents the
    val upRate=50 //Number of milliseconds between upgrades. TODO:Make sure that th
    var startTime=System.nanoTime()
    var runCycles=0 //The number of cycles for which the game has bee running for.

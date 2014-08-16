@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 
 object Line{
 	class LineBuilder(){
+	  
 		var xA:Short=0
 		var xB:Short=0
 		var yA:Short=0
@@ -77,25 +78,30 @@ class Line(build:Line.LineBuilder) extends java.io.Serializable{
         val finalLoc: Location = new Location(xA,yA)
         val startLoc: Location = new Location(xB,yB)
         drawLine(bufferGraphics)
-
+        
+        bufferGraphics.end()
         //Get the midpoint of the line
         val midX: Int = (xA + xB) / 2
         val midY: Int = (yA + yB) / 2
 
         val distance: Double = finalLoc.distance(startLoc)
-        val xPoints = new Array[Float](3)
-        val yPoints = new Array[Float](3)
+        val xPts = new Array[Float](3)
+        val yPts = new Array[Float](3)
         val xW = (20 * (yB - yA) / distance).asInstanceOf[Float]
         val yW = (20 * (xB - xA) / distance).asInstanceOf[Float]
 
-        xPoints(0) = midX + xW
-        yPoints(0) = midY - yW
-        xPoints(1) = midX - xW
-        yPoints(1) = midY + yW
-        xPoints(2) = midX + (30*(xB - xA)/distance).asInstanceOf[Float]
-        yPoints(2) = midY + (30*(yB -yA)/distance).asInstanceOf[Float]
-        bufferGraphics.polyline(xPoints++yPoints)
+        xPts(0) = midX + xW
+        yPts(0) = midY - yW
+        xPts(1) = midX - xW
+        yPts(1) = midY + yW
+        xPts(2) = midX + (30*(xB - xA)/distance).asInstanceOf[Float]
+        yPts(2) = midY + (30*(yB -yA)/distance).asInstanceOf[Float]
+    	
+    	bufferGraphics.begin(ShapeType.Filled)
+    	bufferGraphics.setColor(Color.BLACK)
+    	bufferGraphics.triangle(xPts(0),yPts(0),xPts(1),yPts(1),xPts(2),yPts(2))
         bufferGraphics.end()
+  
     }
     override def toString():String=xA+":"+yA+" "+xB+":"+yB
 }

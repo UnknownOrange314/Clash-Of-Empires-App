@@ -51,16 +51,12 @@ class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends drawAr
      */
     def intersection(shape:Shape):Boolean=return shape.getBounds.intersects(drawBounds)
 
-    private def renderHex(drawShape:Polygon,drawColor:Color){
-    	
+    private def renderHex(drawShape:Polygon,drawColor:Color){   	
 	    shapeDraw.begin(ShapeType.Filled)
     	shapeDraw.setColor(Color.WHITE)
-    	//shapeDraw.rect(0,0,width,height)
     	shapeDraw.end()
-    	//println("Drawing mini hexagon")
     	DrawHelper.fillHexagon(drawShape, shapeDraw, drawColor,0.2f)
     	DrawHelper.drawHexagon(drawShape,shapeDraw,Color.BLACK,0.2f)
-    	//println("Done drawing mini")
 	}
 	
 	def render(gameState:GameStateData, regionShapes:ArrayList[Polygon]){

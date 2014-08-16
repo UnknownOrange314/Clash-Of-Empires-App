@@ -5,7 +5,6 @@ import java.awt.Color
 import server.model.mapData.MapFacade
 import server.model.ai.strategy.AttackStrategy.SimpleAttackStrategy
 import server.model.ai.strategy.FortifyStrategy.SimpleFortifyStrategy
-import server.model.ai.strategy.PowerCenterStrategy.SimpleCapitalFinder
 import server.model.playerData.{Player}
 import server.model.playerData.RegionBorder
 import scala.collection.JavaConversions._
@@ -30,13 +29,12 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
      val attackStrat = new SimpleAttackStrategy()
      val foritfyStrat = new SimpleFortifyStrategy()
      var potentialField:PotentialField=null  //The potential field that determines how the AI should move
-     val powerFinder=new SimpleCapitalFinder()
      var locationScores=new HashMap[Region,Double]
      def getPersonality():AiPersona=myPersonality
 
-     override def act(Players:Array[Player]){
+     override def act(Players:ArrayList[Player]){
     	
-         if(myPersonality.equals(AiPersona.getNeutralPersona())){
+         if(isNeutral){
              return
          }
 
@@ -73,8 +71,8 @@ class EasyComputerPlayer(persona:AiPersona,num:Double,pEval:AiDirObj) extends Co
     def getPotentialField():PotentialField=potentialField
 
     /**
-     * This method determines the number of troops the AI autobuilds to account for the fact that some algorithms say an AI should
-     * produce fewer troops. Integer rounding may create problems here.
+     * This method determines the number of troops the AI autobuilds, and accounts for the fact that some algorithms say an AI should
+     * produce fewer troops.
      */
     override def getBuildCounts(): HashMap[Region, Integer]={
         val buildCounts:HashMap[Region,Integer]=super.getBuildCounts

@@ -28,7 +28,6 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
     var yPos=20
     val xSpace=80
     val ySpace=40
-
     val top=260
     
     val font=new BitmapFont()

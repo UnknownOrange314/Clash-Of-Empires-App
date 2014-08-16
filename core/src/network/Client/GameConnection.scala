@@ -8,7 +8,7 @@ import server.model.mapData.{TerrainType}
 import util.ArrayList
 import engine.rts.model.Resource;
 import server.clientCom.{RegionRenderData, PlayerStats}
-
+import network.DataUpdater
 /**
  * This class defines an interface for the view to interact with the game data.
  */
@@ -36,10 +36,7 @@ abstract class GameConnection() extends Thread{
     def getRightClick():Point=myStats.getRightClick()
     def getLeftClick():Point=myStats.getLeftClick()
     def nullData():Boolean
-    def addMarketCallback(c1:(PlayerStats)=>Unit)
-    def addDataCallback(c2:(PlayerStats)=>Unit)
-
-    def addCallbacks(c1:(PlayerStats)=>Unit,c2:(PlayerStats)=>Unit)
+    def addDataCallback(c2:DataUpdater)
     override def run(){
     }
 }

@@ -5,8 +5,10 @@ import scala.collection.JavaConversions._
 
 object TerrainType{
     
+    val WATER="water"
+      
     var terrainList=new ArrayList[TerrainType]
- 
+    
     def getType(name:String):TerrainType={
         for(t:TerrainType<-terrainList){
             if (t.getName.equals(name)){

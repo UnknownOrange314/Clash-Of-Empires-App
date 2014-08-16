@@ -272,7 +272,7 @@ class Player() extends GamePlayer(){
      * @return The troop you have built or null if a troop is unable to be built.
      */
     def buildTroop(buildRegion:Region):Troop={
-        val t=new Troop(this,buildRegion)
+        val t=new Troop(this)
         myTroops.get(buildRegion).add(t)
         return t
     }
@@ -295,7 +295,7 @@ class Player() extends GamePlayer(){
 
     def removeRallyPoint(start:Region,end:Region){
         for(border:RegionBorder<-borders.get(start)){
-            if(border.end==end){
+            if(border.getDestination()==end){
                 border.turnOff()  //Turn off border.
                 return
             }
@@ -318,7 +318,7 @@ class Player() extends GamePlayer(){
         if(start!=null&&end!=null){
             //Find the connection that connects the two regions and turns it on.
             for(border<-borders.get(start)){
-                if(border.end==end){
+                if(border.getDestination()==end){
                     if(border.isOn()){
                        // border.turnOff()
                     }
@@ -377,6 +377,6 @@ class Player() extends GamePlayer(){
 
     def getTroopCount(r:Region):Int= myTroops.get(r).size()
 
-    def act(myPlayers:Array[Player]){
+    def act(myPlayers:ArrayList[Player]){
     }
 }

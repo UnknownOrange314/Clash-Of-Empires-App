@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 
 object Button{
 	class ButtonBuilder(){
+	  
 		var x:Int=0
 		var y:Int=0
 		var text:String=""

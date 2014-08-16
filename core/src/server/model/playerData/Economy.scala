@@ -77,8 +77,13 @@ class Economy {
      * This method is used to calculate the resource income for a region.
      * @return A HashMap indicating how much of a resource should be generated.
      */
-    def getResourceIncome(resourceList:util.ArrayList[Resource])=resourceList.
-        map(res=>(res.getName,rBonus(res))).toMap
+    def getResourceIncome(resourceList:util.ArrayList[Resource]):HashMap[String,Double]={
+    	var data=new HashMap[String,Double]
+    	for((res)<-resourceList){
+    		data.put(res.getName,rBonus(res))
+    	}
+    	return data
+    }
 
 
     def addUpgrade(upgrade:UpgradeDefinition){

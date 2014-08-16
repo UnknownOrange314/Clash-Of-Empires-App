@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import network.client.Client;
 import network.client.GameConnection;
 import network.client.LocalConnection;
 import client.view.panels.GameDisplay;
@@ -35,11 +34,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		camera=new OrthographicCamera(WIDTH,HEIGHT);
 		camera.position.set(WIDTH/2,HEIGHT/2,0);
-		if(network==true){
-			serverConnection=new Client();
-		}else{
-			serverConnection=new LocalConnection();
-		}
+
+		serverConnection=new LocalConnection();
 		serverConnection.start();
 		display=new GameDisplay(serverConnection,camera);
         glViewport = new Rectangle(0, 0, WIDTH, HEIGHT);

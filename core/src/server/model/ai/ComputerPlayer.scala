@@ -16,7 +16,7 @@ class ComputerPlayer extends Player(){
     var enemyBorderRegions=new HashMap[Location,Region]()
     var myBorderRegions=new HashMap[Location, Region]()
     
-    override def act(myPlayers:Array[Player]) { }
+    override def act(myPlayers:ArrayList[Player]) { }
     def getBorders()=myBorderRegions.values()
 
     /**

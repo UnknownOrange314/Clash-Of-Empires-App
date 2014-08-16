@@ -15,17 +15,17 @@ class Location(var myX:Double, var myY:Double) extends Point2D(){
     def getX(): Double=myX
     def  getY(): Double=myY
 
-    def setLocation(x:Double, y:Double){
-	myX=x
-	myY=y
+   def setLocation(x:Double, y:Double){
+       myX=x
+	   myY=y
    }
 
    def setX(x:Double){
-	myX=x
+       myX=x
    }
 
    def setY(y: Double){
-	myY=y
+       myY=y
    }
 
 
@@ -57,18 +57,28 @@ class Location(var myX:Double, var myY:Double) extends Point2D(){
     def yDistance(loc2:Location):Double=loc2.myY-myY
     def midpoint( loc2:Location): Location=new Location((myX+loc2.myX)/2,(myY+loc2.myY)/2)
 
+    def divide(v:Double):Location={
+      return this/v;
+    }
     def /(v:Double):Location={
         val newX=myX/v
         val newY=myY/v
         return new Location(newX,newY)
     }
     
+    def add(other:Location):Location={
+      return other+this;
+    }
     def +(other:Location):Location={
         val newX=myX+other.myX
         val newY=myY+other.myY
         return new Location(newX,newY)
     }
 
+    def subtract(other:Location):Location={
+    	return this-other;
+    }
+    
     def -(other:Location):Location={
         val newX=myX-other.myX
         val newY=myY-other.myY

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 object IconLabel{
+  
 	class Builder(){
 		var x:Int=0
 		var y:Int=0

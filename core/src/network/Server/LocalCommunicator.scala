@@ -21,9 +21,6 @@ class LocalCommunicator(val some1:Integer,val options:GameOption) extends Displa
     }
 
     def readFromClient():Object={
-    	if(inputQueue.size()>0){
-    		println("Input size:"+inputQueue.size())  
-    	}
         if (inputQueue.isEmpty()){
             return null
         }

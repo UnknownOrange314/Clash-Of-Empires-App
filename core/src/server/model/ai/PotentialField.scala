@@ -10,6 +10,8 @@ import engine.general.utility.{Line, Location}
 
 object PotentialField{
     
+	val BARRIER=999999 //This is a value used to mark regions that shouldn't be visited.
+	
     /**
      * @param myTroopCounts  This represents the number of "charges" at a location which are troops
      * @param attrCount This represents all the important locations on the map and their values.
@@ -56,7 +58,7 @@ object PotentialField{
                 voltage+=localForce/distance
             }
             if(p.getBorders.contains(chargeRegion)==false) {
-                potentialField.addForce(chargeRegion,voltage-999999)
+                potentialField.addForce(chargeRegion,voltage-BARRIER)
             }
             else{
                 potentialField.addForce(chargeRegion,voltage)

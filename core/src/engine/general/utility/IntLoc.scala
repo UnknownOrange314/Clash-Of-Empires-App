@@ -12,9 +12,7 @@ class IntLoc(xc:Int, yc:Int){
 	
 	def getX(): Integer=myX
 	def getY(): Integer=myY
-	
 
-		
 	def compareDistance(loc: Location): Double=Math.sqrt(Math.pow(myX-loc.getX(),2)+Math.pow(myY-loc.getY(),2))
 
     override def hashCode():Int=myY*10000+myX

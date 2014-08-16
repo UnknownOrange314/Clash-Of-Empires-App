@@ -7,7 +7,13 @@ import java.util
 
 object Resource{
     var resourceList=new ArrayList[Resource]()
-    def getResourceNames()=resourceList.map(rVal=>rVal.getName()).toList
+    def getResourceNames():ArrayList[String]={
+        var rList=new ArrayList[String];
+        for(res<-resourceList){
+            rList.add(res.getName())
+        }
+        return rList
+    }
 }
 
 

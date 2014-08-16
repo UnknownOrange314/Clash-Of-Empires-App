@@ -5,7 +5,6 @@ import server.clientCom.RegionRenderData;
 import server.controller.playerControls.HumanPlayer;
 import server.model.ai.EasyComputerPlayer;
 import server.model.playerData.Region;
-import javax.swing.*;
 import java.util.ArrayList;
 import server.model.playerData.Player;
 

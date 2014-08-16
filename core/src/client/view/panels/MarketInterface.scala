@@ -91,7 +91,12 @@ class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  ext
         for((name,button)<-sellMap){
             if (button.contains(x.toInt,y.toInt)){
                 import client.controller.MarketCommand
-                val sellCommand = new MarketCommand("sell", name)
+                val sellCommand = (new MarketCommand.Builder())
+                					.instruction(MarketCommand.SELL)
+                					.resource(name)
+                					.build();
+                
+                //new MarketCommand("sell", name)
                 myClient.sendInput(sellCommand)
                 return
             }
@@ -99,7 +104,10 @@ class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  ext
         
         for ((name,button)<-buyMap){
             if(button.contains(x.toInt,y.toInt)){
-                val buyCommand = new MarketCommand("buy", name)
+                val buyCommand = (new MarketCommand.Builder())
+                					.instruction(MarketCommand.BUY)
+                					.resource(name)
+                					.build();
                 myClient.sendInput(buyCommand)
                 return
             }

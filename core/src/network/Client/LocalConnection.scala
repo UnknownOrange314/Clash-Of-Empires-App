@@ -1,5 +1,6 @@
 package network.client
 
+import network.DataUpdater;
 import server.model.mapData.{TerrainType, MapFacade, GameOption}
 import server.model.playerData.{Player}
 import java.util
@@ -22,7 +23,7 @@ import com.badlogic.gdx.utils.Timer
  */
 class LocalConnection() extends GameConnection(){
 
-    var upCallback:(PlayerStats)=>Unit=null
+    var upCallback:DataUpdater=null
     var marketCallback:(PlayerStats)=>Unit=null
 
     //Initialize the objects used to communicate with the server.
@@ -69,7 +70,7 @@ class LocalConnection() extends GameConnection(){
                 val out=lCom.getOutput()
                 if(out.isInstanceOf[PlayerStats]){
                     myStats=out.asInstanceOf[PlayerStats]
-                    upCallback(myStats)//Update market data.
+                    upCallback.update(myStats)//Update market data.
                 }
             }
         }
@@ -120,7 +121,7 @@ class LocalConnection() extends GameConnection(){
     }
 
    
-    def addDataCallback(c2:(PlayerStats)=>Unit){
+    def addDataCallback(c2:DataUpdater){
         upCallback=c2
         updateTimer.start()     
     }

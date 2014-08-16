@@ -1,6 +1,5 @@
 package server.model.mapData
 
-import server.DataLog
 import engine.general.model.GamePlayer
 import engine.rts.model.{ StratMap}
 import server.clientCom.GameStateData
@@ -98,7 +97,7 @@ class GameMap extends StratMap{
         myRegions=mapGen.generateMap(this)
         
         val cost: Double = (2.0 / myRegions.size)
-        Stockpile.setCost(cost)
+        Stockpile.setMaintenanceFactor(cost)
              
         for (p <- myPlayers) {
             p.initCounts(myRegions)
@@ -172,37 +171,14 @@ class GameMap extends StratMap{
         }
     }
 
-    /**
-     * This method adds a region to the map.
-     * @param r The region that needs to be added to the map.
-     */
-    def addRegion(r: Region) {
-        import java.lang.Math
-        if (myRegions == null) {
-            myRegions = new ArrayList[Region]
-        }
-        val d: Double = Math.random * 9
-        if (d == 8) r.setType(TerrainType.terrainList.get(3))
-        else if (d == 7) r.setType(TerrainType.terrainList.get(2))
-        else if (d == 6) r.setType(TerrainType.terrainList.get(1))
-        else r.setType(TerrainType.terrainList.get(0))
-        myRegions.add(r)
-    }
 
     /**
      * This method carries out actions for each player.
      */
     private def computerActions {
-
         AiDirector.calculatePower
-        for (player <- myPlayers)
-        {
-            val p2= new Array[Player](myPlayers.size)
-            for(i <-0 to myPlayers.size-1)  //Didn't we already add a list of players???
-            {
-                p2(i)=myPlayers(i)
-            }
-            player.act(p2)
+        for (player <- myPlayers){
+            player.act(myPlayers)
         }
     }
 
@@ -210,9 +186,7 @@ class GameMap extends StratMap{
      * This method is used to move the troops for each player.
      */
     private def moveTroops {
-
-        for(player<-myPlayers)
-        {
+        for(player<-myPlayers){
             player.moveTroops
         }
     }
@@ -262,9 +236,7 @@ class GameMap extends StratMap{
             for (r <- myRegions) {
                 r.attack
             }
-        }
-
-      
+        }   
         updateRegions
         battle
     }
@@ -277,13 +249,16 @@ class GameMap extends StratMap{
         val regionBounds: ArrayList[Polygon] = new ArrayList[Polygon]
         val xLocations: ArrayList[Integer] = new ArrayList[Integer]
         val yLocations: ArrayList[Integer] = new ArrayList[Integer]
-        import scala.collection.JavaConversions._
         for (r <- myRegions) {
             regionBounds.add(r.getBounds)
             xLocations.add(r.xCenterRender.asInstanceOf[Int])
             yLocations.add(r.yCenterRender.asInstanceOf[Int])
         }
-        return new RegionRenderData(regionBounds, xLocations, yLocations)
+        return (new RegionRenderData.Builder())
+        		.rBounds(regionBounds)
+        		.xLocs(xLocations)
+        		.yLocs(yLocations)
+        		.build()
     }
 
     /**
@@ -311,11 +286,9 @@ class GameMap extends StratMap{
             									.hitPoints(r.getHitPoints)
             									.terrain(r.getType)
             									.population(r.getPopulation)
-            									.capital(r.isCapital)
+            									.capital(r.isCapital())
             									.build()
-
-            regionData.add(regionState)
-           
+            regionData.add(regionState)        
         }
         
         val moveData: HashMap[IntLoc, Line] = new HashMap[IntLoc, Line]
@@ -334,10 +307,12 @@ class GameMap extends StratMap{
                 deathCounts.put(i, pDeaths.get(i))
             }
         }
+        
         val nationData: HashMap[String, String] = new HashMap[String, String]
         for (p <- myPlayers) {
             nationData.put(p.getName, "" + p.getPopulation)
         }
+        
         return (new GameStateData.Builder())
         		.deathCounts(deathCounts)
         		.passTime(myOptions.getRemainingTime)

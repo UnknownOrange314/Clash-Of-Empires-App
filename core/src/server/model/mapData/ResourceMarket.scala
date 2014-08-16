@@ -7,8 +7,8 @@ import java.lang.Double
 import engine.rts.model.Resource
 
 object ResourceMarket{
-    val baseSellNum=10 //The default amount of resources you will lose per market transaction.
-    val baseBuyNum=5   //The default amount of resources you wil gain per market transaction.
+    def baseSellNum=10 //The default amount of resources you will lose per market transaction.
+    def baseBuyNum=5   //The default amount of resources you wil gain per market transaction.
 }
 
 class ResourceMarket{

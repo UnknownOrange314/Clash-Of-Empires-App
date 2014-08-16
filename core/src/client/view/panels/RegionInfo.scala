@@ -103,7 +103,11 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
     def processClick(x:Int,y:Int){
         for ((info:String,button:Button)<-buttons){
             if(button.contains(x,y)){
-                gameConnection.sendInput(new RegionCommand(info,selRegion.ownerNum,selRegion.name))
+                gameConnection.sendInput((new RegionCommand.Builder())
+                							.command(info)
+                							.owner(selRegion.ownerNum)
+                							.name(selRegion.name)
+                							.build())
             }
         }
     }

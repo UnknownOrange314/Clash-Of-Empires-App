@@ -12,10 +12,8 @@ import server.clientCom.RegionRenderData;
 import server.model.mapData.ResourceMarket;
 import server.clientCom.PlayerStats;
 import server.model.playerData.Region;
-import engine.general.utility.Location;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,8 +26,8 @@ public class HumanPlayer extends Player {
     //These two values keep track of the clicks made. Use accessor methods to get the values in these variables.
     private Point rightClickA;
     private Point rightClickB;
-    private Region clickRegion=null; //This is the region that the user has last clicked on.
 
+    private final Point EMPTY_CLICK=new Point(-1,-1);
     //These variables are here to prevent concurrent access to the input variables.
     private final Semaphore rightClickLock;
     private final Semaphore leftClickLock;
@@ -56,7 +54,6 @@ public class HumanPlayer extends Player {
             else{
                 displayCom.writeToClient(data);
             }
-
         }
         catch(Exception e){
             e.printStackTrace();
@@ -65,16 +62,16 @@ public class HumanPlayer extends Player {
 
     public void processCommand(MarketCommand c){
         ResourceMarket market=MapFacade.getResourceMarket();
-        if(c.instruction().equals("sell")){
+        if(c.instruction.equals(MarketCommand.SELL)){
             //Attempt to sell a resource and regenHP the market if successful.
-            if(myResources().sell(c.resource(),market.getPrice(c.resource()))){
-                market.sell(c.resource());
+            if(myResources().sell(c.resource,market.getPrice(c.resource))){
+                market.sell(c.resource);
             }
         }
-        if(c.instruction().equals("buy")){
+        if(c.instruction.equals(MarketCommand.BUY)){
             //Attempt to buy a resource and regenHP the market if successful.
-            if(myResources().buy(c.resource(),market.getPrice(c.resource()))){
-                market.buy(c.resource());
+            if(myResources().buy(c.resource,market.getPrice(c.resource))){
+                market.buy(c.resource);
             }
         }
     }
@@ -84,10 +81,10 @@ public class HumanPlayer extends Player {
      * @param c
      */
     public void processCommand(RegionCommand c){
-        String name=c.name();
+        String name=c.name;
         for(Region r:myRegions()){
             if(r.getName()==name){
-                String command=c.command();
+                String command=c.command;
                 for(UpgradeDefinition u:UpgradeDefinition.upgradeList()){
                     if(command.equals(u.name())){
                         buildUpgrade(r,u);
@@ -133,19 +130,9 @@ public class HumanPlayer extends Player {
                     If the user left clicks on something, then the saved right clicks should be deleted.
                     Also, we need to turn on the interface for doing things with a region.
                      */
-                    if(input.clickType()==ClickCommand.LEFT_CLICK()){
-                        
-                        int x=input.x();
-                        int y=input.y();
+                    if(input.clickType()==ClickCommand.LEFT_CLICK()){               
                         rightClickA=null;
                         rightClickB=null;
-
-                        //See if we have clicked on a region.
-                        for(Region r: myRegions()){
-                            if(r.contains(new Location(x,y))){
-                                clickRegion=r;//Set the click region.
-                            }
-                        }
                     }
                 }
 
@@ -248,7 +235,7 @@ public class HumanPlayer extends Player {
         catch(Exception e){
             e.printStackTrace();
         }
-        return new Point(-1,-1);
+        return EMPTY_CLICK;
     }
     public Point getRightClickB(){
         try{
@@ -264,7 +251,7 @@ public class HumanPlayer extends Player {
         catch(Exception e){
             e.printStackTrace();
         }
-        return new Point(-1,-1);
+        return EMPTY_CLICK;
     }
 
     private Region findRegion(Point loc){

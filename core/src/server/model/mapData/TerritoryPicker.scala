@@ -14,12 +14,18 @@ import server.model.playerData.Region
  *This class sets up a balanced starting position that is randomized at the same time.
  */
 object TerritoryPicker{
+  
+
+	
     def pickOwners( regions:util.ArrayList[Region], players:util.ArrayList[Player],myOptions:GameOption){       
     
       val neutral: Player = players.get(players.size - 1)
       for (c <- regions) {
     	  c.setOwner(neutral)
       }   
+      val DIST_RAND=20.0
+      val DIST_ZERO=99 //The score that is added when the distance is 0.
+      
       
       val score =new mutable.ListMap[Region,Double]() //Score the regions based on desirability. Regions with higher scores are less desirable.
       for (r <- regions){
@@ -30,7 +36,7 @@ object TerritoryPicker{
         		  distTot+=r.compareDistance(r2)*r.compareDistance(r2)
               }
           }
-          var distScore=(distTot+Math.random*20)*(r.getMoveCost());
+          var distScore=(distTot+Math.random*DIST_RAND)*(r.getMoveCost());
           score.put(r, distScore)
        }
 
@@ -45,11 +51,11 @@ object TerritoryPicker{
            }
            for(other<-regions){
                val distance=topRegion.compareDistance(other)
-               if(distance==0){
-            	   score(other)+=99
+               if(distance<=1.0){
+            	   score(other)+=DIST_ZERO
                }
                else{
-            	   score(other)+=40/distance
+            	   score(other)+=DIST_ZERO/distance
                }
             }
         }

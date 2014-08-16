@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 abstract class GuiItem(val x:Integer,val y:Integer){
   
-
-	
 	val xPos=x.toFloat
 	val yPos=y.toFloat
 	

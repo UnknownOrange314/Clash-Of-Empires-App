@@ -10,6 +10,7 @@ import client.ImageManager
 import client.view.Camera
 import client.view.animation.AnimationManager
 
+import network.DataUpdater;
 import network.client.GameConnection
 
 import engine.general.utility.DrawHelper
@@ -68,10 +69,7 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     var logPanel=InterfaceBuilder.createLogPanel(serverConnection)
     addComponent(logPanel)
 
-    //This is a callback method to update the labels.
-    var updateCallback:(PlayerStats)=>Unit=null
-    updateCallback=(stats:PlayerStats)=>playerInfo.updateLabels(stats:PlayerStats)
-    serverConnection.addDataCallback(updateCallback)
+
 
     var miniMap=InterfaceBuilder.createMinimap()
     addComponent(miniMap)
@@ -80,6 +78,10 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     var playerInfo=InterfaceBuilder.createInfoPanel(serverConnection)
     addComponent(playerInfo) //This must be added last because the minimap overlaps this.
 
+        //This is a callback method to update the labels.
+    var updateCallback=new DataUpdater(playerInfo);
+    serverConnection.addDataCallback(updateCallback)
+    
     var gameView = new Camera(DRAW_WIDTH,DRAW_HEIGHT,camera) //This class is responsible for doing transforms when zooming or scrolling.
 
     //Add a class to deal with input.
@@ -94,11 +96,9 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     */
     private def renderUpgrades(upgradeList:BitSet,xPos:Integer,yPos:Integer){
         if (gameView.renderUpgrades()) {
-            val builtUpgrades = new ArrayList[Integer]
             for (upgradeNum <- 0 until serverConnection.getImprovementCount()) {
                 if (upgradeList.get(upgradeNum) == true) {
                 	val SIZE=25
-                    builtUpgrades.add(upgradeNum)
                     var dX=xPos +SIZE * (upgradeNum % 2).toFloat
                     var dY=yPos +SIZE+ SIZE * (upgradeNum / 2).toFloat
                     var size=(SIZE).toFloat
@@ -131,7 +131,7 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     	batch.end()
     	var h:HealthBar=null
     	if(!healthBars.containsKey(rNum)){
-    		h=HealthBar.createHealthBar(xPos,yPos,Region.MAX_POINTS)
+    		h=HealthBar.createHealthBar(xPos,yPos,Region.MAX_POINTS);
     	}else{
     	  h=healthBars.get(rNum)
     	}
@@ -263,7 +263,6 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
         renderTroopMovement(rallyPoints,gameStateData.conflictLocs,regionShapes)
         animations.updateAnimations()
         if(regionControl.isOn()){
-        	println(regionControl.isOn())
         	regionControl.render()    
         }
         miniMap.render(gameStateData, regionShapes)

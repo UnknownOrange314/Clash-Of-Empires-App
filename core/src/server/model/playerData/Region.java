@@ -55,7 +55,7 @@ public class Region extends RegionDef{
      * @return
      */
     public int getUpgradeScore(){
-    	return myEconomy.myUpgrades().size();
+    	return myEconomy.getUpgradeScore();
     }
 
     /**
@@ -197,9 +197,9 @@ public class Region extends RegionDef{
      */
     HashMap<String,Double> getResourceIncome(){	
     	HashMap<String,Double> income=new HashMap<String,Double>();
-    	HashMap<String,Object> data=myEconomy.getResourceIncome(Resource.resourceList());
+    	HashMap<String,Double> data=myEconomy.getResourceIncome();
     	for(String res:data.keySet()){
-    		income.put(res,(Double)(data.get(res)));
+    		income.put(res,data.get(res));
     	}
     	return income;
     }
@@ -270,7 +270,7 @@ public class Region extends RegionDef{
     }
     
     public int getPopulation(){
-    	return myEconomy.getPopulation();
+    	return (int)myEconomy.getPopulation();
     }
     
     public ArrayList<Region> getBorderRegions(){

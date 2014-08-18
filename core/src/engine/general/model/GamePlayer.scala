@@ -19,4 +19,7 @@ class GamePlayer{
     GamePlayer.numPlayers+=1
     def getNum()=myNum
     def getName()= myName
+    def setName(n:String){
+      myName=n;
+    }
 }

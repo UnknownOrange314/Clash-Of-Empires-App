@@ -88,16 +88,16 @@ object TargetEval {
          * Calculate the relative troop strength of the AI.
          * It does not want to be as aggressive if opponents have more troops than us.
          */
-        val myTroopCount=p.getTroopCount.toDouble
+        val myTroopCount=p.countTroops().toDouble
         var totalCount=0.0
         for(player<-p.getPlayers){
             if(player.isInstanceOf[EasyComputerPlayer]){
                 if(!player.asInstanceOf[EasyComputerPlayer].isNeutral){
-                    totalCount=totalCount+player.getTroopCount.toDouble
+                    totalCount=totalCount+player.countTroops().toDouble
                 }
             }
             else{
-                totalCount=totalCount+player.getTroopCount.toDouble
+                totalCount=totalCount+player.countTroops().toDouble
             }
         }
         

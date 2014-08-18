@@ -164,7 +164,7 @@ public class HumanPlayer extends Player {
     public void sendStatistics(){
 
         HashMap<String,Double>  income=myResources().getIncome();
-        double upkeep=myResources().getUpkeepCost(getRegionCount(),getTroopCount());
+        double upkeep=myResources().getUpkeepCost(getRegionCount(),countTroops());
         HashMap<String,Integer> resources=myResources().getResourceData();
         int elapsedTime=MapFacade.getElapsedTime();
         //Send data about how well each player is doing.

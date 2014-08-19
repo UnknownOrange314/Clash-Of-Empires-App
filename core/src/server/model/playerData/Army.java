@@ -9,7 +9,7 @@ import engine.rts.model.TroopCollection;
 /**
  * This class represents a collection of troops as an army. Each troop is a part of a army.
  */
-class Army extends TroopCollection{
+public class Army extends TroopCollection{
 
     final static double BASE_HIT_CHANCE=0.2;
 

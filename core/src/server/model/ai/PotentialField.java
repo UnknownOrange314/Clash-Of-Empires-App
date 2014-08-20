@@ -1,13 +1,7 @@
 package server.model.ai;
 
-
-
 import server.model.playerData.Region;
 import server.model.playerData.Army;
-import engine.general.utility.*;
-
-import java.awt.Graphics;
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -16,7 +10,7 @@ import java.util.HashSet;
  * It works by generating "voltages" for each region and forcing troops to move to
  * regions with a higher "voltage".
  */
-class PotentialField{
+public class PotentialField{
     
 	final static double BARRIER=999999; //This is a value used to mark regions that shouldn't be visited.
 	
@@ -25,7 +19,7 @@ class PotentialField{
      * @param attrCount This represents all the important locations on the map and their values.
      * @return A potential field for all the locations of the "charges"
      */
-    public PotentialField getPotentialVectors(HashMap<Region,Double> myTroopCounts,HashMap<Region,Double> attrCount,EasyComputerPlayer p){
+    public static PotentialField getPotentialVectors(HashMap<Region,Double> myTroopCounts,HashMap<Region,Double> attrCount,EasyComputerPlayer p){
         
         //The troop counts are valid.
         final double dFact=100.0;//Region distaRnces will be multiplied by this number

@@ -7,5 +7,5 @@ import server.model.playerData.Region;
 import java.util.HashMap;
 
 public interface ForitfyStrategy{
-	public PotentialField fortifyTroops(HashMap<Region,Army> regionTroops, HashMap<Region,scala.Double> regionScores,EasyComputerPlayer p);
+	public PotentialField fortifyTroops(HashMap<Region,Army> regionTroops, HashMap<Region,Double> regionScores,EasyComputerPlayer p);
 }

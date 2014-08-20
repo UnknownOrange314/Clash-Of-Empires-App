@@ -136,7 +136,7 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
         }
 
         val score:Population=statistics.getPlayerScore()
-        scoreLabel.setText("Total population:" + NumberFormat.getNumberInstance(Locale.US).format(score.total))
+        scoreLabel.setText("Total population:" + NumberFormat.getNumberInstance(Locale.US).format(score.getTotal()))
 
         var a=0
         for((item,cost)<-statistics.res){

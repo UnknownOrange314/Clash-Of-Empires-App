@@ -25,6 +25,9 @@ import server.model.ai.AiDirObj
  */
 object GameMap {
     private[mapData] final val NEUTRAL_TROOPS: Int = 0
+    
+    def getNeutrals()=NEUTRAL_TROOPS
+    
     /**
      * These values represent the intervals between updated.
      */

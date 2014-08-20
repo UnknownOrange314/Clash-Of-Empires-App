@@ -43,7 +43,12 @@ class Economy {
     	return myUpgrades.size();
     }
     public double getAbundance(String s){
-    	return myResources.get(s);
+    	System.out.println(myResources);
+    	System.out.println(s);
+    	if(myResources.containsKey(s)){
+        	return myResources.get(s);   		
+    	}
+    	return 0.0;
     }
   
     /**

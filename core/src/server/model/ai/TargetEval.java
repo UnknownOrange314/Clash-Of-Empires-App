@@ -1,15 +1,17 @@
 package server.model.ai;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 import server.model.playerData.Player;
 import server.model.playerData.Region;
 import engine.general.utility.Location;
 
 import java.util.TreeMap;
-
+import server.model.ValueComparator;
 /**
  * This class contains functions used to evaluate a potential target before
  * attacking. The functions should be stateless.
@@ -68,21 +70,23 @@ public class TargetEval {
         return scores;
     }
 
+  
     /**
      * This method will find targets for a player to attack.
      */
     public static HashSet<Region>  findTargets(double minScore,HashMap<Region,Double> locationScores,EasyComputerPlayer p){
         
-        HashSet<Region> myTargets=new HashSet<Region>();
-        TreeMap<Region,Double> locVals=new TreeMap<Region,Double>();
+    	HashSet<Region> myTargets=new HashSet<Region>();
+        TreeMap<String,Region> sortedVals=new TreeMap<String,Region>();
 
+        int i=0;
         /**Copy the AI scores into a new list that will be modified.
          **Only worry about regions that are controlled by an opponent and are bordering regions
          */
         for (Region region:locationScores.keySet()){
         	double score=locationScores.get(region);
             if(p.getEnemyBorders().containsKey(region.getCenterLoc())){
-                locVals.put(region,score);
+            	sortedVals.put(i+" "+score,region);
             }
         }
 
@@ -107,12 +111,13 @@ public class TargetEval {
         double power_factor=1.5; //A higher value means that an AI will be less likely to attack multiple targets
         double curScore=(1-strRatio)*500-500;
         
-        for( Region key:locVals.descendingKeySet()){
-            double conquestVal=locVals.get(key);
+        for( String key:sortedVals.descendingKeySet()){
+        	double conquestVal=Double.parseDouble(key.split(" ")[1]);
+            Region attack=sortedVals.get(key);
         	double defenseScore=minScore+curScore;
             if(conquestVal*strRatio>defenseScore){
                 curScore=curScore*power_factor;
-                myTargets.add(key);
+                myTargets.add(attack);
             }
         }
         return myTargets;

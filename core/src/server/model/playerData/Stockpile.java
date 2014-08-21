@@ -135,12 +135,12 @@ public class Stockpile extends ResourceStock{
      */
     public boolean sell(String resourceString,double price){
         //We do not have enough resources
-        if(myResources.get(resourceString)-ResourceMarket.baseSellNum()<0){
+        if(myResources.get(resourceString)-ResourceMarket.BASE_SELL_NUM<0){
             getFailMessages().add("Not enough "+resourceString+" to sell");
             return false;
         }
-        myResources.put(resourceString,(myResources.get(resourceString)-ResourceMarket.baseSellNum()));
-        myResources.put(COIN,(myResources.get(COIN)+ResourceMarket.baseBuyNum()*price));
+        myResources.put(resourceString,(myResources.get(resourceString)-ResourceMarket.BASE_SELL_NUM));
+        myResources.put(COIN,(myResources.get(COIN)+ResourceMarket.BASE_BUY_NUM*price));
         return true;
     }
 
@@ -152,12 +152,12 @@ public class Stockpile extends ResourceStock{
 	     */
     public boolean buy(String resourceString,double price){
         //We do not have enough money
-        if(myResources.get(COIN)-ResourceMarket.baseSellNum()*price<0){
+        if(myResources.get(COIN)-ResourceMarket.BASE_SELL_NUM*price<0){
             getFailMessages().add("Not enough coin to buy "+resourceString);
             return false;
         }
-        myResources.put(resourceString,(myResources.get(resourceString)+ResourceMarket.baseBuyNum()));
-        myResources.put(COIN,(myResources.get(COIN)-ResourceMarket.baseSellNum()*price));
+        myResources.put(resourceString,(myResources.get(resourceString)+ResourceMarket.BASE_BUY_NUM));
+        myResources.put(COIN,(myResources.get(COIN)-ResourceMarket.BASE_SELL_NUM*price));
         return true;
     }
 

@@ -41,23 +41,25 @@ class TerritoryPicker{
        //Iterate through all the other players and assign them a starting region.
        for(Player player:players){
     	   TerritoryScore max=score.pollLast();
-    	   double topScore=max.getScore();
     	   Region topRegion=max.reg;
            topRegion.setOwner(player);
            player.setCapital(topRegion);
            for (UpgradeDefinition u:UpgradeDefinition.upgradeList) {
         	   topRegion.addUpgrade(u);
            }
+           
+           TreeSet<TerritoryScore> temp=new TreeSet<TerritoryScore>();
            for(TerritoryScore tScore:score){
         	   Region other=tScore.reg;
                double distance=topRegion.compareDistance(other);
                if(distance<=1.0){
-            	   tScore.addScore(DIST_ZERO);
+            	   temp.add(new TerritoryScore(tScore.reg,tScore.getScore()+DIST_ZERO));
                }
                else{
-            	   tScore.addScore(DIST_ZERO/distance);
+            	   temp.add(new TerritoryScore(tScore.reg,tScore.getScore()+DIST_ZERO/distance));
                }
             }
+           score=temp;
         }
 
         int idx=0;

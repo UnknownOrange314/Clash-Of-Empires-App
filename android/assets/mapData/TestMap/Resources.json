@@ -3,21 +3,26 @@
 	
 	  {
 		"name": "coin",
-		"image":"coin.png"
+		"image":"coin.png",
+		"id":1
 
 	  },{
 		"name":"food",
-		"image":"food.png"
+		"image":"food.png",
+		"id":2
 	  },{
 		"name":"metal",
-		"image":"metal.png"
+		"image":"metal.png",
+		"id":3
 	  },{
-		"name":"stone",
-		"image":"stone.png"
+	  	"name":"stone",
+	  	"image":"stone.png",
+	  	"id":4
 	  },{
-			"name":"wood",
-			"image":"wood.png"
-		}
+	  	"name":"wood",
+	  	"image":"wood.png",
+	  	"id":5
+	 }
 	  
 
 	]

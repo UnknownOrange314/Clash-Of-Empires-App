@@ -51,7 +51,7 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
             var y=80+i*30
             var x=20
             var upgrade=UpgradeDefinition.upgradeList.get(i)
-            components.add(new Label(x,y,upgrade.name,font))
+            components.add(new Label(x,y,upgrade.getName(),font))
             x+=100
             components.add(new Label(x,y,upgrade.costStr(),font))
             x+=100
@@ -60,10 +60,10 @@ class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnec
                 components.add(new Label(x,y,"Already built",font))
             }
             else{
-                buttons(upgrade.name)=(new Button.ButtonBuilder)
+                buttons(upgrade.getName())=(new Button.ButtonBuilder)
                 						.x(x)
                 						.y(y)
-                						.text("Buy "+upgrade.name)
+                						.text("Buy "+upgrade.getName())
                 						.font(font)
                 						.build()
             }

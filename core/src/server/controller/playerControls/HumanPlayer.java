@@ -85,8 +85,8 @@ public class HumanPlayer extends Player {
         for(Region r:myRegions()){
             if(r.getName()==name){
                 String command=c.command;
-                for(UpgradeDefinition u:UpgradeDefinition.upgradeList()){
-                    if(command.equals(u.name())){
+                for(UpgradeDefinition u:UpgradeDefinition.upgradeList){
+                    if(command.equals(u.getName())){
                         buildUpgrade(r,u);
                         return;
                     }

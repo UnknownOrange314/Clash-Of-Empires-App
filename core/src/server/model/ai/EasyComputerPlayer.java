@@ -76,7 +76,7 @@ public class EasyComputerPlayer extends ComputerPlayer{
       */
      public void  upgradeRegions(){
          for(Region region:regions){
-             for(UpgradeDefinition upgrade:UpgradeDefinition.upgradeList()){
+             for(UpgradeDefinition upgrade:UpgradeDefinition.upgradeList){
                  if(region.hasUpgrade(upgrade)==false){
                      if(resources.canUpgrade(upgrade.getCost())){
                          resources.buyUpgrade(upgrade);
@@ -107,7 +107,7 @@ public class EasyComputerPlayer extends ComputerPlayer{
     public HashMap<Region,Integer> getBuildCounts(){
         HashMap<Region,Integer> buildCounts=super.getBuildCounts();
         HashMap<Region,Integer> finalCounts=new HashMap<Region,Integer>();
-        double buildFactor=myPersonality.reinforceRate();
+        double buildFactor=myPersonality.reinforceRate;
         for(Region buildLoc:buildCounts.keySet()){
         	int buildCount=buildCounts.get(buildLoc);
             finalCounts.put(buildLoc,(int)(buildCount*buildFactor));

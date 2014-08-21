@@ -139,11 +139,11 @@ public class Region extends RegionDef{
         Iterator iter=BORDER_ZONES.iterator();
         while(iter.hasNext()){
             Region border=(Region)iter.next();
-            if(border.getType().equals(TerrainType.WATER() )){
+            if(border.getType().equals(TerrainType.WATER )){
                 iter.remove();
             }
         }
-        if(regionType.equals(TerrainType.getType(TerrainType.WATER()))){
+        if(regionType.equals(TerrainType.getType(TerrainType.WATER))){
             BORDER_ZONES.clear();
         }
     }

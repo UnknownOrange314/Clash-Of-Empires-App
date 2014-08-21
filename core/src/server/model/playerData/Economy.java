@@ -34,7 +34,7 @@ class Economy {
 
     public Economy(){
     	//TODO: Figure out a way to implement constructor without needing this if statement.
-        if(Resource.resourceList().size()>0){
+        if(Resource.resourceList.size()>0){
             findResources();
         }
     }
@@ -55,8 +55,8 @@ class Economy {
      * This method determines the resources that an economy will have.
      */
     public void findResources(){
-        int rNum=(int)(Math.random()*(Resource.resourceList().size()));
-        myResource=Resource.resourceList().get(rNum);
+        int rNum=(int)(Math.random()*(Resource.resourceList.size()));
+        myResource=Resource.resourceList.get(rNum);
         myResources.put(myResource.getName(),1.0);
         myResources.put("coin",1.0);
     }
@@ -66,7 +66,7 @@ class Economy {
      * @return The resource number for the region's resource.
      */   
     int getResourceNumber(){
-    	return myResource.getID();
+    	return myResource.getId();
     }
     
     public boolean hasUpgrade(UpgradeDefinition up){
@@ -76,7 +76,7 @@ class Economy {
     public double getUpgradeDefense(){
     	double def=0.0;
     	for(UpgradeDefinition up:myUpgrades){
-    		def+=up.defenseBonus();
+    		def+=up.defenseBonus;
     	}
     	return def;
     }
@@ -84,7 +84,7 @@ class Economy {
     public double getUpgradeAttack(){
     	double att=0.0;
     	for(UpgradeDefinition up:myUpgrades){
-    		att+=up.attackBonus();
+    		att+=up.attackBonus;
     	}
     	return att;
     }
@@ -123,7 +123,7 @@ class Economy {
      */
     public HashMap<String,Double> getResourceIncome(){
     	HashMap<String,Double> data=new HashMap<String,Double>();
-    	for(Resource res:Resource.resourceList()){
+    	for(Resource res:Resource.resourceList){
     		data.put(res.getName(),rBonus(res));
     	}
     	return data;
@@ -140,7 +140,7 @@ class Economy {
      */
     public BitSet getImprovements(){
         
-        ArrayList<UpgradeDefinition> upgrades=UpgradeDefinition.upgradeList();
+        ArrayList<UpgradeDefinition> upgrades=UpgradeDefinition.upgradeList;
         BitSet improvementData=new BitSet(upgrades.size());
         for(int i=0;i<upgrades.size();i++){
         	UpgradeDefinition up=upgrades.get(i);

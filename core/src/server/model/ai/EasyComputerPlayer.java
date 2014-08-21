@@ -130,7 +130,7 @@ public class EasyComputerPlayer extends ComputerPlayer{
     }
     
     public HashMap<Location,Region> getEnemyBorders(){
-    	return enemyBorderRegions();
+    	return enemyBorderRegions;
     }
 
    /**

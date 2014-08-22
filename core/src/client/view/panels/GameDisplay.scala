@@ -82,7 +82,7 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
     var updateCallback=new DataUpdater(playerInfo);
     serverConnection.addDataCallback(updateCallback)
     
-    var gameView = new Camera(DRAW_WIDTH,DRAW_HEIGHT,camera) //This class is responsible for doing transforms when zooming or scrolling.
+    var gameView = new Camera(getWidth(),getHeight(),camera) //This class is responsible for doing transforms when zooming or scrolling.
 
     //Add a class to deal with input.
     var inProcess=new InputProcess(serverConnection, gameView,this,regionControl,playerInfo)

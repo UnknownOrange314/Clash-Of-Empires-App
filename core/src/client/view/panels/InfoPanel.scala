@@ -6,7 +6,7 @@ import java.io.File
 import java.util.HashMap
 import server.clientCom.PlayerStats
 import server.model.playerData.Population
-import engine.general.view.{drawArea}
+import engine.general.view.{DrawArea}
 import engine.rts.model.Resource
 import client.controller.ResearchCommand
 import engine.general.view.gui.{Label,Button,IconLabel}
@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.Color
  * This class represents the menu for the game.
  * The buttons currently do not have any functionality.
  */
-class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnection:GameConnection) extends drawArea(x,y,width,height){
+class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnection:GameConnection) extends DrawArea(x,y,width,height){
     
     //This represent the coordinates of the component
     val startX=50

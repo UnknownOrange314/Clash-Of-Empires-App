@@ -10,7 +10,7 @@ import java.awt.Graphics
 import server.clientCom.RegionState
 import scala.collection.JavaConversions._
 import client.controller.RegionCommand
-import engine.general.view.drawArea
+import engine.general.view.DrawArea
 import engine.general.view.gui.{Label, GuiItem,Button,IconLabel}
 import engine.general.view.Display
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
@@ -28,7 +28,7 @@ object RegionInfo{
 }
 
 
-class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnection:GameConnection) extends drawArea(x,y,width,height){
+class RegionInfo(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnection:GameConnection) extends DrawArea(x,y,width,height){
 
     var on=false
     var selRegion:RegionState=null

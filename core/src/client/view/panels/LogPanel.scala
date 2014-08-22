@@ -5,7 +5,7 @@ import scala.collection.JavaConversions._
 import network.client.GameConnection
 import java.util.LinkedList
 import java.util.ArrayList
-import engine.general.view.{drawArea}
+import engine.general.view.{DrawArea}
 import engine.general.view.gui.Label
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Matrix4
 import com.mygdx.game.MyGdxGame
 import com.badlogic.gdx.graphics.Color
 
-class LogPanel(x:Integer,y:Integer,w:Integer,h:Integer,val gameConnection:GameConnection) extends drawArea(x,y,w,h){
+class LogPanel(x:Integer,y:Integer,w:Integer,h:Integer,val gameConnection:GameConnection) extends DrawArea(x,y,w,h){
 
     private var log=new LinkedList[String]
     log.add("Testing alert view")

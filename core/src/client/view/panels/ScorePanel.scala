@@ -3,7 +3,7 @@ package client.view.panels
 import client.ImageManager
 import server.clientCom.GameStateData
 import java.util.HashMap
-import engine.general.view.drawArea
+import engine.general.view.DrawArea
 import engine.general.view.gui.Label
 import engine.general.view.gui.IconLabel
 import scala.collection.JavaConversions._
@@ -35,7 +35,7 @@ object ScorePanel{
 /**
  * This object shows information about each player
  */
-class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,height:Integer) extends drawArea(x,y,width,height){
+class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,height:Integer) extends DrawArea(x,y,width,height){
 
     var nationNames=new Array[String](6)
     nationNames(0)="Turkey"
@@ -66,7 +66,7 @@ class ScorePanel(val imageData:ImageManager,x:Integer,y:Integer,width:Integer,he
         
         for ((name)<-nationNames){            
         	components.add(new Label(xD,yD,name,font))
-            components.add((new IconLabel.Builder)
+            components.add((new IconLabel.Builder())
             				.xPos(xD)
             				.yPos(yD-10)
             				.image(flags(name))

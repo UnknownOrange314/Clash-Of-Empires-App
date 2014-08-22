@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
  * This class represents the interface for using the game market.
  * @param myClient
  */
-class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  extends drawArea(x,y,w,h){
+class MarketInterface(x:Int,y:Int,w:Int,h:Int,var myClient: GameConnection)  extends DrawArea(x,y,w,h){
 
     var priceFormat=new DecimalFormat("###.##")
     var sellMap = new HashMap[String, Button]

@@ -5,7 +5,7 @@ import scala.collection.JavaConversions._
 import network.client.GameConnection
 import java.util.LinkedList
 import java.util.ArrayList
-import engine.general.view.{drawArea}
+import engine.general.view.{DrawArea}
 import engine.general.view.gui.Label
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
@@ -20,7 +20,6 @@ import engine.rts.model.StratMap
 import java.awt._
 import java.awt.geom.AffineTransform
 import java.awt.geom.Point2D
-import engine.general.view.drawArea
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.graphics.Color
@@ -36,7 +35,7 @@ import java.util.ArrayList
  * @param w The width of the minimap.
  * @param h The height of the minimap.
  */
-class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends drawArea(x,y,w,h){
+class Minimap(mapWidth:Int,mapHeight:Int,x:Int,y:Int,w:Int,h:Int) extends DrawArea(x,y,w,h){
     
 	println("Location:"+x+":"+y)
     val scale=width/(Math.min(mapWidth,mapHeight).toDouble)

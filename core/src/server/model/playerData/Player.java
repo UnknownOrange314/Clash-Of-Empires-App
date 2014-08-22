@@ -76,7 +76,7 @@ public class Player extends GamePlayer{
 
     /**
      * This method returns the number of troops that have been lost in each region. The results are used for
-     * animations on the cleint.
+     * animations on the client.
      * @return
      */
     public HashMap<IntLoc,Integer>getTroopDeaths(){

@@ -25,7 +25,7 @@ public class Army extends TroopCollection{
 	}
 	
 	public int getDeathCount(){
-		return deathCount();
+		return deathCount;
 	}
 	
 	public void printTroopCount(){

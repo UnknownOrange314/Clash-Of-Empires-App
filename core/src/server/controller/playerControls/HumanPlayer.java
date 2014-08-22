@@ -189,7 +189,18 @@ public class HumanPlayer extends Player {
             }
         }
         
-        PlayerStats stats=new PlayerStats(resources,elapsedTime,getScore(),rallyData,rightClickA,rightClickB,upkeep,income,myResources().getFailMessages(),myResearch());
+        PlayerStats stats=(new PlayerStats.Builder()).
+        						resourceData(resources)
+        						.timeElapsed(elapsedTime)
+        						.playerScore(getScore())
+        						.rallyPoints(rallyData)
+        						.rightClick(rightClickA)
+        						.rightClick(rightClickB)
+        						.upkeep(upkeep)
+        						.income(income)
+        						.fails(myResources().getFailMessages())
+        						.research(myResearch())
+        						.build();
         try{
             displayCom.writeToClient(stats);
         }

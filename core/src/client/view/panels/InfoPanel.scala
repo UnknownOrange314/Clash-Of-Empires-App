@@ -164,7 +164,7 @@ class InfoPanel(x:Integer,y:Integer,width:Integer,height:Integer,val gameConnect
         
         upkeepLabel.setText("Upkeep: $"+statistics.getUpkeep().toInt)
         var messageString="Message log"
-        for (failStr<-statistics.failLog){
+        for (failStr<-statistics.fails){
             messageString+=failStr
         }
     }

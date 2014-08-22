@@ -266,7 +266,7 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
         	regionControl.render()    
         }
         miniMap.render(gameStateData, regionShapes)
-        logPanel.render(serverConnection.myStats.failLog)
+        logPanel.render(serverConnection.myStats.fails)
         scoreDisplay.render()
         playerInfo.render()
         

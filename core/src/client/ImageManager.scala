@@ -47,7 +47,7 @@ class ImageManager(val serverConnection:GameConnection) {
             	val resourceImage = new Texture("images/resources/" + resource.getResourceFile())
             	resourceImages.add(resourceImage)
             }
-            serverConnection.getImprovementDefs().foreach {improvement=>
+            serverConnection.improvementDefs().foreach {improvement=>
                 val upgradeImage = new Texture("images/improvements/" + improvement.getImageLocation())
                 improvementImages.add(upgradeImage)
             }

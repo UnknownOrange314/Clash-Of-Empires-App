@@ -88,7 +88,7 @@ public class EasyComputerPlayer extends ComputerPlayer{
      }
 
     public HashMap<Region,String>getStrengthRatio(){
-    	return ((SimpleAttackStrategy)attackStrat).attackStrengths();  //This method returns strength ratios for regions it plans to attack for debugging purposes.
+    	return ((SimpleAttackStrategy)attackStrat).getAttackPower();  //This method returns strength ratios for regions it plans to attack for debugging purposes.
     }
     
     public HashSet<Region> getTargets(){

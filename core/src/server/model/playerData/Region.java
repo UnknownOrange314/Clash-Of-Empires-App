@@ -277,7 +277,7 @@ public class Region extends RegionDef{
     	return BORDER_ZONES;
     }
     
-    public Player getOwner(){
+    public Player border(){
     	return myOwner;
     }
     
@@ -333,6 +333,9 @@ public class Region extends RegionDef{
     	return myOwner.getNum();
     }
 
+    public Player getOwner(){
+    	return myOwner;
+    }
     /**
      * This method sets the owner of the region.
      * @param p The new region owner.

@@ -16,7 +16,6 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import server.model.ai.AiDirObj;
 import server.model.playerData.Region;
 import server.model.playerData.Player;
 import server.model.playerData.Stockpile;
@@ -91,11 +90,11 @@ class GameMap extends StratMap {
         int pCount= myOptions.getPlayerCount();
         pCount=5;
         for (int pNum=myOptions.getClients().size(); pNum< pCount;pNum++){
-            myPlayers.add(new EasyComputerPlayer(AiPersona.pickDefaultPersona(), pNum,new AiDirObj()));
+            myPlayers.add(new EasyComputerPlayer(AiPersona.pickDefaultPersona(), pNum,new AiDirector()));
         }
 
         //Add a neutral players.
-        myPlayers.add(new EasyComputerPlayer(AiPersona.pickDefaultPersona(), pCount,new AiDirObj()));
+        myPlayers.add(new EasyComputerPlayer(AiPersona.pickDefaultPersona(), pCount,new AiDirector()));
         for (Player p:myPlayers){
             p.initStockpile();  //The game crashes if a player's resource stockpile is initialized in the player constructor.
             p.addPlayers(myPlayers);

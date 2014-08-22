@@ -24,7 +24,7 @@ public class TargetEval {
     /**
      * This method will score all the cities. The score should be based on the value of cities.
      */
-    public static HashMap<Region,Double> scoreLocations(AiDirObj powerEval,ArrayList<Player> playerList,EasyComputerPlayer curPlayer){
+    public static HashMap<Region,Double> scoreLocations(AiDirector powerEval,ArrayList<Player> playerList,EasyComputerPlayer curPlayer){
         
         HashMap<Region,Double> scores=new HashMap<Region,Double>();
 

@@ -24,7 +24,7 @@ import java.awt.Graphics;
 
 public class EasyComputerPlayer extends ComputerPlayer{
 	
-	 final AiDirObj powerEval;
+	 final AiDirector powerEval;
 	 final AiPersona myPersonality;
 	 
 	 HashMap<Location,Double> ignoreList=null; //The list of regions that the AI should not reinforce due to a low score.
@@ -38,7 +38,7 @@ public class EasyComputerPlayer extends ComputerPlayer{
 	 PotentialField potentialField=null;  //The potential field that determines how the AI should move
 	 HashMap<Region,Double> locationScores=new HashMap<Region,Double>();
 	 
-	 public EasyComputerPlayer(AiPersona persona,double num,AiDirObj pEval){
+	 public EasyComputerPlayer(AiPersona persona,double num,AiDirector pEval){
 		 powerEval=pEval;
 		 myPersonality=persona;
 		 attackStrat=new SimpleAttackStrategy();

@@ -3,7 +3,6 @@ package server.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 import com.badlogic.gdx.utils.JsonValue;

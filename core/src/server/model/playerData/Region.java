@@ -3,14 +3,13 @@ package server.model.playerData;
 
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 import engine.general.utility.IntLoc;
 import engine.general.utility.Location;
 import engine.rts.model.RegionDef;
-import engine.rts.model.Resource;
 import server.model.mapData.TerrainType;
 import server.model.UpgradeDefinition;
+
 public class Region extends RegionDef{
 	
 	public final static int MAX_POINTS=10000;

@@ -51,6 +51,7 @@ public class DrawArea {
 	   shapeDraw.end();
 	   for(GuiItem component:components){
 		   component.draw(shapeDraw,batch);
+		   System.out.println(component+":"+shapeDraw+":"+batch);
 	   }
    }
 	

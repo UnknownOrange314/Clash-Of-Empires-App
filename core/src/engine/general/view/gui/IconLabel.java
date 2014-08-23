@@ -53,8 +53,7 @@ public class IconLabel extends GuiItem{
 	final int height;
 	final int width;
 	final Texture image;
-	
-    
+	    
 	public IconLabel(Builder b){
 		super(b.x,b.y);
 	    height=b.h;

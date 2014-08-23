@@ -101,6 +101,10 @@ public class Button extends GuiItem{
         text=s;
     }
     
+    public boolean contains(float x,float y){
+    	return drawRect.contains((double)x,(double)y);
+    }
+    
     public boolean contains(int x,int y){
     	return drawRect.contains((double)x,(double)y);
     }

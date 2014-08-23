@@ -45,6 +45,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 		super(x,y,w,h);
 		gameConnection=gCon;
 		font.setColor(Color.BLACK);
+		System.out.println("");
 	}
 	
 	//TODO: Rewrite method so that the method does not repeatedly create new objects.

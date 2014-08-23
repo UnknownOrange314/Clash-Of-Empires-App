@@ -69,7 +69,6 @@ public class ScorePanel extends DrawArea{
         int yD=20;
         
         for (String name:nationNames){            
-        	System.out.println("Flags:"+flags.get(name));
         	components.add(new Label(xD,yD,name,font));       	
         	IconLabel label=(new IconLabel.Builder())
 						.xPos(xD)

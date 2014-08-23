@@ -69,10 +69,10 @@ class Camera( w:Integer, h:Integer,val camera:OrthographicCamera) {
     }
 
     def transform(l:Line):Line={
-        val x1=transformX(l.xA.toInt)
-        val x2=transformX(l.xB.toInt)
-        val y1=transformY(l.yA.toInt)
-        val y2=transformY(l.yB.toInt)        
+        val x1=transformX(l.getX1().toInt)
+        val x2=transformX(l.getX2().toInt)
+        val y1=transformY(l.getY1().toInt)
+        val y2=transformY(l.getY2().toInt)        
         return (new Line.LineBuilder)
             .x1(x1.toShort)
         	.x2(x2.toShort)

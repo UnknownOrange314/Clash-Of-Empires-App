@@ -1,25 +1,27 @@
-package engine.general.network
+package engine.general.network;
+
 
 /**
  *This class is used to represent an interface between the client and the server.
  */
-abstract class  DisplayCommunicator extends Thread{
+public abstract class  DisplayCommunicator extends Thread{
     
     /**
      * Clear the output stream.
+     * TODO:Rename this method.
      */
-    def flushInput()
+    public abstract void flushInput();
 
     /**
      * Use this method to write an object to the client.
      * @param obj The object that should be written to the client.
      */
 
-    def writeToClient(obj:Object)
+    public abstract void writeToClient(Object obj);
 
     /**
      * Use this method to read an object from the server.
      * @return The object that was read from the server.
      */
-    def readFromClient():Object
+    public abstract Object readFromClient();
 }

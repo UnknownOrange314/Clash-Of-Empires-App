@@ -31,14 +31,14 @@ class TroopAnimation{
 	    w=moveLine.height();
 	    dx= 0.5f*h/maxCount;
 	    dy= 0.5f*w/maxCount;
-	    curX=moveLine.xA();
-	    curY=moveLine.yB();
+	    curX=moveLine.getX1();
+	    curY=moveLine.getY1();
 	    
-	    if(moveLine.xB()-moveLine.xA()<0){
+	    if(moveLine.getX2()-moveLine.getX1()<0){
 	        dx=(-1*dx);
 	    }
 
-	    if(moveLine.yB()-moveLine.yA()<0){
+	    if(moveLine.getY2()-moveLine.getY1()<0){
 	        dy=(-1*dy);
 	    }
 	}

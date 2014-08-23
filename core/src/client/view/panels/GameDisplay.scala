@@ -158,8 +158,8 @@ class GameDisplay(serverConnection: GameConnection,val camera:OrthographicCamera
 
         //Show areas where there is a battle.
         for((cLoc,cLine)<-conflictLocs){
-            val cX=gameView.transformX(cLine.xA).toDouble
-            val cY=gameView.transformY(cLine.yA).toDouble
+            val cX=gameView.transformX(cLine.getX1()).toDouble
+            val cY=gameView.transformY(cLine.getY1()).toDouble
             val p=new java.awt.geom.Point2D.Double(cX,cY)
             for((poly)<-polyMap) {
                 if(poly.contains(p)){

@@ -96,9 +96,9 @@ public class HumanPlayer extends Player {
     }
 
     public void processCommand(ResearchCommand c){
-        int cost=(int)myResearch().getCost(c.command());
+        int cost=(int)myResearch().getCost(c.command);
         if(myResources().buyResearch(cost)){
-            myResearch().upgrade(c.command());
+            myResearch().upgrade(c.command);
         }
     }
 
@@ -119,18 +119,18 @@ public class HumanPlayer extends Player {
                 if(serverInput instanceof ClickCommand){
                 	
                     ClickCommand input=(ClickCommand)serverInput;
-                    if(input.clickType()==ClickCommand.RIGHT_CLICK()){
+                    if(input.clickType==ClickCommand.RIGHT_CLICK){
                         if(getRightClickA()==null)
-                            setRightClickA(input.x(),input.y());
+                            setRightClickA(input.x,input.y);
                         else
-                            setRightClickB(input.x(),input.y());
+                            setRightClickB(input.x,input.y);
                     }
 
                     /*
                     If the user left clicks on something, then the saved right clicks should be deleted.
                     Also, we need to turn on the interface for doing things with a region.
                      */
-                    if(input.clickType()==ClickCommand.LEFT_CLICK()){               
+                    if(input.clickType==ClickCommand.LEFT_CLICK){               
                         rightClickA=null;
                         rightClickB=null;
                     }

@@ -26,7 +26,7 @@ public abstract class Display{
 
 	private static final int DRAW_HEIGHT=MyGdxGame.HEIGHT;
 	private static final int DRAW_WIDTH=MyGdxGame.WIDTH;
-	private GameConnection serverConnection;
+	protected GameConnection serverConnection;
 	
     //These represent the objects used to draw on the screen.
     protected SpriteBatch batch=new SpriteBatch();
